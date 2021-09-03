@@ -1,5 +1,14 @@
 #include "stm32f746xx.h"
-#include "eigth_picture.h"
+#include <five_picture_2.h>
+#include <four_picture_2.h>
+#include <nine_picture_2.h>
+#include <one_picture_2.h>
+#include <seven_picture_2.h>
+#include <six_picture_2.h>
+#include <three_picture_2.h>
+#include <two_picture_2.h>
+#include <zero_picture_2.h>
+#include "eigth_picture_2.h"
 #include "init_picture.h"
 #include "main_picture.h"
 
@@ -9,42 +18,37 @@
 #define  DISPLAY_VSYNC            ((uint16_t)10)
 #define  DISPLAY_VBP              ((uint16_t)2)
 #define  DISPLAY_VFP              ((uint16_t)2)
-#define DISPLAY_WIDTH 			  ((uint16_t)480)
-#define DISPLAY_HEIGHT			  ((uint16_t)272)
-#define PIXEL_SIZE				  ((uint16_t)4)
-#define REFRESH_RATE 			  (1665)
+#define  DISPLAY_WIDTH 			  ((uint16_t)480)
+#define  DISPLAY_HEIGHT			  ((uint16_t)272)
+#define  PIXEL_SIZE				  ((uint16_t)4)
+#define  REFRESH_RATE 			  (1665)
 
 static uint16_t screen[130560];
+uint8_t flag = 0;
+uint16_t cnt = 0;
+uint8_t minute = 0;
+uint8_t minute_2 = 0;
+uint8_t hour = 0;
+uint8_t hour_2 = 0;
 
 void initialization()
 {
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
 	RCC->APB2ENR |= RCC_APB2ENR_LTDCEN;
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOBEN;
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOEEN;
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOFEN;
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOGEN;
-	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOHEN;
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOJEN;
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOKEN;
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOIEN;
-	RCC->APB2ENR |= RCC_APB2ENR_USART6EN;
-
-	GPIOC->MODER |= GPIO_MODER_MODER6_1 | GPIO_MODER_MODER7_1;
-	GPIOC->AFR[0] |= GPIO_AFRL_AFRL6_3 | GPIO_AFRL_AFRL7_3;
-	USART6->CR1 |= USART_CR1_OVER8;
-	USART6->BRR = 0x0EA6;
-	USART6->CR1 |= USART_CR1_UE | USART_CR1_TE | USART_CR1_RE;
 
 	RCC->CR |= RCC_CR_HSEON;
 	while (!(RCC->CR & RCC_CR_HSERDY));
 	FLASH->ACR |= FLASH_ACR_LATENCY_5WS;
 	RCC->PLLCFGR |= RCC_PLLCFGR_PLLM_0 | RCC_PLLCFGR_PLLM_3 | RCC_PLLCFGR_PLLM_4;
-	RCC->PLLCFGR |= RCC_PLLCFGR_PLLN_4 | RCC_PLLCFGR_PLLN_5 | RCC_PLLCFGR_PLLN_7 |RCC_PLLCFGR_PLLN_6 |RCC_PLLCFGR_PLLN_8;
+	RCC->PLLCFGR |= RCC_PLLCFGR_PLLN_4 | RCC_PLLCFGR_PLLN_5 | RCC_PLLCFGR_PLLN_7 | RCC_PLLCFGR_PLLN_8;
 	RCC->PLLCFGR &= ~RCC_PLLCFGR_PLLN_6;
+	RCC->PLLCFGR |= RCC_PLLCFGR_PLLP_0;
+	RCC->CFGR |= RCC_CFGR_PPRE1_2 | RCC_CFGR_PPRE2_2;
 	RCC->PLLCFGR |= RCC_PLLCFGR_PLLSRC;
 	RCC->CR |= RCC_CR_PLLON;
 	while((RCC->CR & RCC_CR_PLLRDY) == 0);
@@ -57,16 +61,14 @@ void initialization()
 	RCC->CR |= RCC_CR_PLLSAION;
 	while ((RCC->CR & RCC_CR_PLLSAIRDY) == 0);
 
-	//************************************************************
-
-	//B0 pe4
+	//B0 PE4
 	GPIOE->MODER   &= ~GPIO_MODER_MODER4;
 	GPIOE->MODER   |= GPIO_MODER_MODER4_1;
 	GPIOE->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR4_1;
 	GPIOE->AFR[0] &= ~GPIO_AFRL_AFRL4_0;
 	GPIOE->AFR[0] |= GPIO_AFRL_AFRL4_1 | GPIO_AFRL_AFRL4_2 | GPIO_AFRL_AFRL4_3;
 
-	//B1 PG13
+	//B1 PJ13
 	GPIOJ->MODER   &= ~GPIO_MODER_MODER13;
 	GPIOJ->MODER   |= GPIO_MODER_MODER13_1;
 	GPIOJ->OSPEEDR |= GPIO_OSPEEDER_OSPEEDR13_1;
@@ -272,10 +274,8 @@ void initialization()
 
 	LTDC->SSCR |= ((DISPLAY_HSYNC - 1) << 16 | (DISPLAY_VSYNC - 1));
 	LTDC->BPCR |= ((DISPLAY_HSYNC+DISPLAY_HBP-1) << 16 | (DISPLAY_VSYNC+DISPLAY_VBP-1));
-	LTDC->AWCR |= ((DISPLAY_WIDTH + DISPLAY_HSYNC + DISPLAY_HBP - 1) << 16 |
-	(DISPLAY_HEIGHT + DISPLAY_VSYNC + DISPLAY_VBP - 1));
+	LTDC->AWCR |= ((DISPLAY_WIDTH + DISPLAY_HSYNC + DISPLAY_HBP - 1) << 16 | (DISPLAY_HEIGHT + DISPLAY_VSYNC + DISPLAY_VBP - 1));
 	LTDC->TWCR |= ((DISPLAY_WIDTH + DISPLAY_HSYNC + DISPLAY_HBP + DISPLAY_HFP -1)<< 16 |(DISPLAY_HEIGHT + DISPLAY_VSYNC + DISPLAY_VBP + DISPLAY_VFP - 1));
-	LTDC->BCCR = 0x00ff00ff;
 	LTDC_Layer2->WHPCR |= (((DISPLAY_WIDTH + DISPLAY_HBP + DISPLAY_HSYNC - 1) << 16) | (DISPLAY_HBP + DISPLAY_HSYNC));
 	LTDC_Layer2->WVPCR |= (((DISPLAY_HEIGHT + DISPLAY_VSYNC + DISPLAY_VBP - 1) << 16) |(DISPLAY_VSYNC + DISPLAY_VBP));
 	LTDC_Layer2->PFCR = 2;
@@ -305,50 +305,82 @@ void change_digit_2(int poz, int number)
 	if(number==0)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = zero_picture[k++];
+				screen[x+42253+i*480+j] = zero_picture_2[k++];
 	if(number==1)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = one_picture[k++];
+				screen[x+42253+i*480+j] = one_picture_2[k++];
 	if(number==2)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = two_picture[k++];
+				screen[x+42253+i*480+j] = two_picture_2[k++];
 	if(number==3)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = three_picture[k++];
+				screen[x+42253+i*480+j] = three_picture_2[k++];
 	if(number==4)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = four_picture[k++];
+				screen[x+42253+i*480+j] = four_picture_2[k++];
 	if(number==5)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = five_picture[k++];
+				screen[x+42253+i*480+j] = five_picture_2[k++];
 	if(number==6)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = six_picture[k++];
+				screen[x+42253+i*480+j] = six_picture_2[k++];
 	if(number==7)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = seven_picture[k++];
+				screen[x+42253+i*480+j] = seven_picture_2[k++];
 	if(number==8)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = eigth_picture[k++];
+				screen[x+42253+i*480+j] = eigth_picture_2[k++];
 	if(number==9)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
-				screen[x+42253+i*480+j] = nine_picture[k++];
+				screen[x+42253+i*480+j] = nine_picture_2[k++];
 	LTDC_Layer2->CFBAR = (uint32_t)screen;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
+}
+
+void SysTick_Handler(void)
+{
+	++cnt;
+	if(cnt == 60000)
+	{
+		++minute;
+		if(minute == 10)
+		{
+			minute = 0;
+			++minute_2;
+			change_digit_2(3,minute_2);
+			if(minute_2 == 6)
+			{
+				minute_2 = 0;
+				++hour;
+				change_digit_2(2,hour);
+				if(hour == 10)
+				{
+					hour = 0;
+					++hour_2;
+					change_digit_2(2,hour_2);
+					change_digit_2(2,0);
+				}
+				change_digit_2(3,0);
+			}
+			change_digit_2(4,0);
+		}
+		change_digit_2(4,minute);
+	}
 }
 
 int main(void)
 {
 	initialization();
+
 	for(int i = 0; i <= 130559; ++i)
 		screen[i] = main_picture[i];
 	GPIOK->BSRR |= GPIO_BSRR_BS_3; // LED
@@ -356,18 +388,11 @@ int main(void)
 	// Initialization picture
 	LTDC_Layer2->CFBAR = (uint32_t)init_picture;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
-	for(int i = 0; i <= 50000000; ++i);
+	for(int i = 0; i <= 5000000; ++i);
 
 	// Main picture
 	LTDC_Layer2->CFBAR = (uint32_t)main_picture;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 
-	for(int i = 0; i <= 10000000; ++i);
-	change_digit_2(1,1);
-	for(int i = 0; i <= 10000000; ++i);
-	change_digit_2(2,2);
-	for(int i = 0; i <= 10000000; ++i);
-	change_digit_2(3,3);
-	for(int i = 0; i <= 10000000; ++i);
-	change_digit_2(4,4);
+	SysTick_Config((108000-1) / 60);
 }

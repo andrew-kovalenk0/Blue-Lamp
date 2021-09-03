@@ -1,0 +1,6 @@
+core_cm7.h:2024:22:__NVIC_SetPriority	16	static
+core_cm7.h:2564:26:SysTick_Config	16	static
+main.c:34:6:initialization	4	static
+main.c:291:6:change_digit_2	104	static
+main.c:349:6:SysTick_Handler	8	static
+main.c:380:5:main	16	static
