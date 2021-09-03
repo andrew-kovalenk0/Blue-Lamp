@@ -60,8 +60,8 @@ all: main-build
 main-build: Blue\ Lamp.elf secondary-outputs
 
 # Tool invocations
-Blue\ Lamp.elf: $(OBJS) $(USER_OBJS) C:\Kadimin\ works\Blue\ Lamp\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Blue Lamp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Kadimin works\Blue Lamp\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Blue Lamp.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Blue\ Lamp.elf: $(OBJS) $(USER_OBJS) D:\Work\Blue-Lamp\Blue\ Lamp\STM32F746NGHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Blue Lamp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\Work\Blue-Lamp\Blue Lamp\STM32F746NGHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Blue Lamp.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -1,5 +1,5 @@
 #include "stm32f746xx.h"
-#include "one_picture.h"
+#include "eigth_picture.h"
 #include "init_picture.h"
 #include "main_picture.h"
 
@@ -14,7 +14,7 @@
 #define PIXEL_SIZE				  ((uint16_t)4)
 #define REFRESH_RATE 			  (1665)
 
-static uint16_t imageLayer1[130560];
+static uint16_t screen[130560];
 
 void initialization()
 {
@@ -270,8 +270,6 @@ void initialization()
 	GPIOC->MODER |= GPIO_MODER_MODER7_0;
 	GPIOC->BSRR |= GPIO_BSRR_BS_7;
 
-    GPIOK->BSRR |= GPIO_BSRR_BS_3;
-
 	LTDC->SSCR |= ((DISPLAY_HSYNC - 1) << 16 | (DISPLAY_VSYNC - 1));
 	LTDC->BPCR |= ((DISPLAY_HSYNC+DISPLAY_HBP-1) << 16 | (DISPLAY_VSYNC+DISPLAY_VBP-1));
 	LTDC->AWCR |= ((DISPLAY_WIDTH + DISPLAY_HSYNC + DISPLAY_HBP - 1) << 16 |
@@ -281,7 +279,6 @@ void initialization()
 	LTDC_Layer2->WHPCR |= (((DISPLAY_WIDTH + DISPLAY_HBP + DISPLAY_HSYNC - 1) << 16) | (DISPLAY_HBP + DISPLAY_HSYNC));
 	LTDC_Layer2->WVPCR |= (((DISPLAY_HEIGHT + DISPLAY_VSYNC + DISPLAY_VBP - 1) << 16) |(DISPLAY_VSYNC + DISPLAY_VBP));
 	LTDC_Layer2->PFCR = 2;
-	LTDC_Layer2->CFBAR =(uint32_t) imageLayer1;
 	LTDC_Layer2->BFCR |= ((4 << 8) | 5);
 	LTDC_Layer2->CACR = 0xff;
 	LTDC_Layer2->CFBLR |= (((PIXEL_SIZE * DISPLAY_WIDTH) << 16) | (PIXEL_SIZE * DISPLAY_WIDTH + 3));
@@ -291,7 +288,7 @@ void initialization()
 	LTDC->GCR |= LTDC_GCR_LTDCEN;
 }
 
-void three(int poz,int color)
+void change_digit_2(int poz, int number)
 {
 	int x=0;
 	int k=0;
@@ -299,27 +296,78 @@ void three(int poz,int color)
 	if(poz==1)
 		x = 0;
 	if(poz==2)
-		x = 80;
+		x = 110;
 	if(poz==3)
-		x = 240;
+		x = 246;
 	if(poz==4)
-		x = 320;
+		x = 356;
 
-	for(int i = 0; i <= 199; ++i)
-		for(int j = 0; j <= 111; ++j)
-			imageLayer1[x+14450+i*480+j]=digit3[k++];
+	if(number==0)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = zero_picture[k++];
+	if(number==1)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = one_picture[k++];
+	if(number==2)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = two_picture[k++];
+	if(number==3)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = three_picture[k++];
+	if(number==4)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = four_picture[k++];
+	if(number==5)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = five_picture[k++];
+	if(number==6)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = six_picture[k++];
+	if(number==7)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = seven_picture[k++];
+	if(number==8)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = eigth_picture[k++];
+	if(number==9)
+		for(int i = 0; i <= 173; ++i)
+			for(int j = 0; j <= 98; ++j)
+				screen[x+42253+i*480+j] = nine_picture[k++];
+	LTDC_Layer2->CFBAR = (uint32_t)screen;
+	LTDC->SRCR |= LTDC_SRCR_VBR;
 }
 
 int main(void)
 {
 	initialization();
+	for(int i = 0; i <= 130559; ++i)
+		screen[i] = main_picture[i];
+	GPIOK->BSRR |= GPIO_BSRR_BS_3; // LED
 
 	// Initialization picture
 	LTDC_Layer2->CFBAR = (uint32_t)init_picture;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
-	for(int i = 0; i <= 10000000; ++i);
+	for(int i = 0; i <= 50000000; ++i);
 
 	// Main picture
 	LTDC_Layer2->CFBAR = (uint32_t)main_picture;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
+
+	for(int i = 0; i <= 10000000; ++i);
+	change_digit_2(1,1);
+	for(int i = 0; i <= 10000000; ++i);
+	change_digit_2(2,2);
+	for(int i = 0; i <= 10000000; ++i);
+	change_digit_2(3,3);
+	for(int i = 0; i <= 10000000; ++i);
+	change_digit_2(4,4);
 }
