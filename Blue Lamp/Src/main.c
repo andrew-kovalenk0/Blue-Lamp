@@ -25,7 +25,7 @@
 
 static uint16_t screen[130560];
 uint8_t flag = 0;
-uint16_t cnt = 0;
+uint32_t cnt = 0;
 uint8_t minute = 0;
 uint8_t minute_2 = 0;
 uint8_t hour = 0;
@@ -349,8 +349,9 @@ void change_digit_2(int poz, int number)
 void SysTick_Handler(void)
 {
 	++cnt;
-	if(cnt == 60000)
+	if(cnt == 3600000)
 	{
+		cnt = 0;
 		++minute;
 		if(minute == 10)
 		{
@@ -366,8 +367,7 @@ void SysTick_Handler(void)
 				{
 					hour = 0;
 					++hour_2;
-					change_digit_2(2,hour_2);
-					change_digit_2(2,0);
+					change_digit_2(1,hour_2);
 				}
 				change_digit_2(3,0);
 			}
@@ -393,6 +393,5 @@ int main(void)
 	// Main picture
 	LTDC_Layer2->CFBAR = (uint32_t)main_picture;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
-
-	SysTick_Config((108000-1) / 60);
+	SysTick_Config(108000 / 60 - 180);
 }
