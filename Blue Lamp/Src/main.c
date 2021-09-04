@@ -368,6 +368,7 @@ void SysTick_Handler(void)
 					hour = 0;
 					++hour_2;
 					change_digit_2(1,hour_2);
+					change_digit_2(2,0);
 				}
 				change_digit_2(3,0);
 			}
@@ -380,7 +381,7 @@ void SysTick_Handler(void)
 int main(void)
 {
 	initialization();
-
+	
 	for(int i = 0; i <= 130559; ++i)
 		screen[i] = main_picture[i];
 	GPIOK->BSRR |= GPIO_BSRR_BS_3; // LED
@@ -393,5 +394,6 @@ int main(void)
 	// Main picture
 	LTDC_Layer2->CFBAR = (uint32_t)main_picture;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
-	SysTick_Config(108000 / 60 - 180);
+
+	SysTick_Config(108000);
 }
