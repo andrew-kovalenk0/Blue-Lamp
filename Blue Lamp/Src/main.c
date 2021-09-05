@@ -48,9 +48,10 @@ static uint16_t screen[130560];
 uint8_t flag = 0;
 uint32_t cnt = 0;
 uint8_t minute = 0;
-uint8_t minute_2 = 0;
-uint8_t hour = 0;
-uint8_t hour_2 = 0;
+uint8_t minute_2 = 6;
+uint8_t hour = 9;
+uint8_t hour_2 = 9;
+
 
 void initialization()
 {
@@ -374,6 +375,7 @@ void change_digit_1(int poz, int number)
 
 void change_digit_2(int poz, int number)
 {
+	change_digit_1(poz, number);
 	int x = 0;
 	int k = 0;
 
@@ -609,36 +611,46 @@ void SysTick_Handler(void)
 	// 600000 - 1.5%
 	// 599000 - 1.3%
 	// 592500 - 0.38%
-	// 590000 - %
-	if(cnt == 590000)
+	// 590000 - 0.038%
+	if(cnt == 580000)
 	{
-		cnt = 136;
-		++minute;
-		if(minute == 10)
+		if(minute == 0)
 		{
-			cnt += 278;
-			minute = 0;
-			++minute_2;
-			change_digit_2(3,minute_2);
-			if(minute_2 == 6)
+			if(minute_2 == 0)
 			{
-				cnt += 269;
-				minute_2 = 0;
-				++hour;
-				change_digit_2(2,hour);
-				if(hour == 10)
+				if(hour == 0)
 				{
-					cnt += 136;
-					hour = 0;
+					cnt = 819;
+					hour = 9;
 					++hour_2;
 					change_digit_2(1,hour_2);
-					change_digit_2(2,0);
+					change_digit_2(2,9);
 				}
-				change_digit_2(3,0);
+				else
+				{
+					cnt = 683;
+					minute_2 = 6;
+					--hour;
+					change_digit_2(2,hour);
+					change_digit_2(3,6);
+				}
 			}
-			change_digit_2(4,0);
+			else
+			{
+				cnt = 414;
+				minute = 9;
+				--minute_2;
+				change_digit_2(3,minute_2);
+				change_digit_2(4,9);
+			}
 		}
-		change_digit_2(4,minute);
+		else
+		{
+			cnt = 136;
+			--minute;
+			change_digit_2(4,minute);
+		}
+		change_digit_3(minute*10);
 	}
 }
 
@@ -658,8 +670,14 @@ int main(void)
 	// Time
 	change_digit_1(1,9);
 	change_digit_1(2,9);
-	change_digit_1(3,9);
-	change_digit_1(4,9);
+	change_digit_1(3,6);
+	change_digit_1(4,0);
+
+	// Time 2
+	change_digit_2(1,9);
+	change_digit_2(2,9);
+	change_digit_2(3,6);
+	change_digit_2(4,0);
 
 	// Power
 	change_digit_3(100);
