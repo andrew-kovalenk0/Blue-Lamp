@@ -1,14 +1,35 @@
 #include "stm32f746xx.h"
-#include <five_picture_2.h>
-#include <four_picture_2.h>
-#include <nine_picture_2.h>
-#include <one_picture_2.h>
-#include <seven_picture_2.h>
-#include <six_picture_2.h>
-#include <three_picture_2.h>
-#include <two_picture_2.h>
-#include <zero_picture_2.h>
+#include "five_picture_1.h"
+#include "four_picture_1.h"
+#include "nine_picture_1.h"
+#include "one_picture_1.h"
+#include "seven_picture_1.h"
+#include "six_picture_1.h"
+#include "three_picture_1.h"
+#include "two_picture_1.h"
+#include "zero_picture_1.h"
+#include "eigth_picture_1.h"
+#include "five_picture_2.h"
+#include "four_picture_2.h"
+#include "nine_picture_2.h"
+#include "one_picture_2.h"
+#include "seven_picture_2.h"
+#include "six_picture_2.h"
+#include "three_picture_2.h"
+#include "two_picture_2.h"
+#include "zero_picture_2.h"
 #include "eigth_picture_2.h"
+#include "five_picture_3.h"
+#include "four_picture_3.h"
+#include "nine_picture_3.h"
+#include "none_picture_3.h"
+#include "one_picture_3.h"
+#include "seven_picture_3.h"
+#include "six_picture_3.h"
+#include "three_picture_3.h"
+#include "two_picture_3.h"
+#include "zero_picture_3.h"
+#include "eigth_picture_3.h"
 #include "init_picture.h"
 #include "main_picture.h"
 
@@ -286,12 +307,75 @@ void initialization()
 	LTDC_Layer2->CR |= LTDC_LxCR_LEN;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 	LTDC->GCR |= LTDC_GCR_LTDCEN;
+
+	for(int i = 0; i <= 130559; ++i)
+		screen[i] = main_picture[i];
+
+	GPIOK->BSRR |= GPIO_BSRR_BS_3;
+}
+
+void change_digit_1(int poz, int number)
+{
+	int x = 0;
+	int k = 0;
+
+	if(poz==1)
+		x = 0;
+	if(poz==2)
+		x = 38;
+	if(poz==3)
+		x = 86;
+	if(poz==4)
+		x = 124;
+
+	if(number==0)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = zero_picture_1[k++];
+	if(number==1)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = one_picture_1[k++];
+	if(number==2)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = two_picture_1[k++];
+	if(number==3)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = three_picture_1[k++];
+	if(number==4)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = four_picture_1[k++];
+	if(number==5)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = five_picture_1[k++];
+	if(number==6)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = six_picture_1[k++];
+	if(number==7)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = seven_picture_1[k++];
+	if(number==8)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = eigth_picture_1[k++];
+	if(number==9)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = nine_picture_1[k++];
+	LTDC_Layer2->CFBAR = (uint32_t)screen;
+	LTDC->SRCR |= LTDC_SRCR_VBR;
 }
 
 void change_digit_2(int poz, int number)
 {
-	int x=0;
-	int k=0;
+	int x = 0;
+	int k = 0;
 
 	if(poz==1)
 		x = 0;
@@ -346,25 +430,205 @@ void change_digit_2(int poz, int number)
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 }
 
+void change_digit_3(int number)
+{
+	int k = 0;
+
+	if(number==0)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = none_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==10)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = one_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==20)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = two_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==30)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = three_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==40)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = four_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==50)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = five_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==60)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = six_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==70)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = seven_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==80)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = eigth_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==90)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = nine_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
+
+	if(number==100)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = zero_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = one_picture_3[k++];
+	}
+
+	LTDC_Layer2->CFBAR = (uint32_t)screen;
+	LTDC->SRCR |= LTDC_SRCR_VBR;
+}
+
 void SysTick_Handler(void)
 {
 	++cnt;
-	if(cnt == 3600000)
+	// 600000 - 1.5%
+	// 599000 - 1.3%
+	// 592500 - 0.38%
+	// 590000 - %
+	if(cnt == 590000)
 	{
-		cnt = 0;
+		cnt = 136;
 		++minute;
 		if(minute == 10)
 		{
+			cnt += 278;
 			minute = 0;
 			++minute_2;
 			change_digit_2(3,minute_2);
 			if(minute_2 == 6)
 			{
+				cnt += 269;
 				minute_2 = 0;
 				++hour;
 				change_digit_2(2,hour);
 				if(hour == 10)
 				{
+					cnt += 136;
 					hour = 0;
 					++hour_2;
 					change_digit_2(1,hour_2);
@@ -381,10 +645,6 @@ void SysTick_Handler(void)
 int main(void)
 {
 	initialization();
-	
-	for(int i = 0; i <= 130559; ++i)
-		screen[i] = main_picture[i];
-	GPIOK->BSRR |= GPIO_BSRR_BS_3; // LED
 
 	// Initialization picture
 	LTDC_Layer2->CFBAR = (uint32_t)init_picture;
@@ -395,5 +655,14 @@ int main(void)
 	LTDC_Layer2->CFBAR = (uint32_t)main_picture;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 
-	SysTick_Config(108000);
+	// Time
+	change_digit_1(1,9);
+	change_digit_1(2,9);
+	change_digit_1(3,9);
+	change_digit_1(4,9);
+
+	// Power
+	change_digit_3(100);
+
+	SysTick_Config(180);
 }
