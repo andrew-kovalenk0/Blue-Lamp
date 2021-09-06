@@ -52,13 +52,6 @@ uint8_t minute_2 = 0;
 uint8_t hour = 0;
 uint8_t hour_2 = 9;
 
-// PI0 - D5
-// PI1 - D13
-// PI2 - D8
-// PI3 - D7
-// PB4 - D3
-void EXTI0_IRQHandler(){}
-
 void initialization()
 {
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
@@ -70,6 +63,7 @@ void initialization()
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOIEN;
 	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
 
+	// Freq
 	RCC->CR |= RCC_CR_HSEON;
 	while (!(RCC->CR & RCC_CR_HSERDY));
 	FLASH->ACR |= FLASH_ACR_LATENCY_5WS;
@@ -90,6 +84,7 @@ void initialization()
 	RCC->CR |= RCC_CR_PLLSAION;
 	while ((RCC->CR & RCC_CR_PLLSAIRDY) == 0);
 
+	// PMW
 	GPIOC->MODER |= GPIO_MODER_MODER6_1;
 	GPIOC->AFR[0] |= GPIO_AFRL_AFRL6_1;
 	TIM3->PSC = 1080;
@@ -98,6 +93,23 @@ void initialization()
 	TIM3->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2;
 	TIM3->CCER |= TIM_CCER_CC1E;
 	TIM3->CR1 |= TIM_CR1_CEN;
+
+	// EXTI
+	// PI0 - D5
+	// PI1 - D13
+	// PI2 - D8
+	// PI3 - D7
+	// PB4 - D3
+	SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI0_PI | SYSCFG_EXTICR1_EXTI1_PI | SYSCFG_EXTICR1_EXTI2_PI | SYSCFG_EXTICR1_EXTI3_PI;
+	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI4_PB;
+	EXTI->IMR |= EXTI_IMR_MR0 | EXTI_IMR_MR1 | EXTI_IMR_MR2 | EXTI_IMR_MR3 | EXTI_IMR_MR4;
+	EXTI->RTSR |= EXTI_RTSR_TR0 | EXTI_RTSR_TR1 | EXTI_RTSR_TR2 | EXTI_RTSR_TR3 | EXTI_RTSR_TR4;
+	NVIC_EnableIRQ(EXTI0_IRQn);
+	NVIC_EnableIRQ(EXTI1_IRQn);
+	NVIC_EnableIRQ(EXTI2_IRQn);
+	NVIC_EnableIRQ(EXTI3_IRQn);
+	NVIC_EnableIRQ(EXTI4_IRQn);
+	__enable_irq ();
 
 	//B0 PE4
 	GPIOE->MODER   &= ~GPIO_MODER_MODER4;
@@ -672,6 +684,36 @@ void SysTick_Handler(void)
 	}
 }
 
+void EXTI0_IRQHandler()
+{
+	change_digit_2(1,1);
+	EXTI->PR |= EXTI_PR_PR0;
+}
+
+void EXTI1_IRQHandler()
+{
+	change_digit_2(2,2);
+	EXTI->PR |= EXTI_PR_PR1;
+}
+
+void EXTI2_IRQHandler()
+{
+	change_digit_2(3,3);
+	EXTI->PR |= EXTI_PR_PR2;
+}
+
+void EXTI3_IRQHandler()
+{
+	change_digit_2(4,4);
+	EXTI->PR |= EXTI_PR_PR3;
+}
+
+void EXTI4_IRQHandler()
+{
+	change_digit_2(1,5);
+	EXTI->PR |= EXTI_PR_PR4;
+}
+
 int main(void)
 {
 	initialization();
@@ -700,5 +742,5 @@ int main(void)
 	// Power
 	change_digit_3(100);
 
-	SysTick_Config(180);
+//	SysTick_Config(180);
 }
