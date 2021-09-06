@@ -4116,10 +4116,10 @@ void SysTick_Handler(void)
  80021c0:	4b33      	ldr	r3, [pc, #204]	; (8002290 <SysTick_Handler+0x108>)
  80021c2:	2209      	movs	r2, #9
  80021c4:	701a      	strb	r2, [r3, #0]
-					++hour_2;
+					--hour_2;
  80021c6:	4b33      	ldr	r3, [pc, #204]	; (8002294 <SysTick_Handler+0x10c>)
  80021c8:	781b      	ldrb	r3, [r3, #0]
- 80021ca:	3301      	adds	r3, #1
+ 80021ca:	3b01      	subs	r3, #1
  80021cc:	b2da      	uxtb	r2, r3
  80021ce:	4b31      	ldr	r3, [pc, #196]	; (8002294 <SysTick_Handler+0x10c>)
  80021d0:	701a      	strb	r2, [r3, #0]

@@ -622,7 +622,7 @@ void SysTick_Handler(void)
 				{
 					cnt = 819;
 					hour = 9;
-					++hour_2;
+					--hour_2;
 					change_digit_2(1,hour_2);
 					change_digit_2(2,9);
 				}
