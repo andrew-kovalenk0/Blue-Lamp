@@ -50,7 +50,7 @@ uint32_t cnt = 0;
 uint8_t minute = 0;
 uint8_t minute_2 = 0;
 uint8_t hour = 0;
-uint8_t hour_2 = 9;
+uint8_t hour_2 = 0;
 
 void initialization()
 {
@@ -357,6 +357,10 @@ void change_digit_1(int poz, int number)
 	if(poz==4)
 		x = 124;
 
+	if(number==10)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[x+5113+i*480+j] = none_picture_3[k++];
 	if(number==0)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -636,7 +640,31 @@ void change_digit_3(int number)
 void SysTick_Handler(void)
 {
 	++cnt;
-	if(cnt == 587500)
+	if(cnt == 300000 && (flag & 0x1) != 0)
+	{
+		cnt = 0;
+		if((flag & 0x2) == 0)
+		{
+			change_digit_1(1,10);
+			change_digit_1(2,10);
+			change_digit_1(3,10);
+			change_digit_1(4,10);
+			flag |= 0x2;
+		}
+		else
+		{
+			change_digit_1(1,hour_2);
+			change_digit_1(2,hour);
+			change_digit_1(3,minute_2);
+			change_digit_1(4,minute);
+			flag &= ~0x2;
+		}
+	}
+	else
+	{
+
+	}
+	if(cnt == 587500 && (flag & 0x4) != 0)
 	{
 		if(minute == 0)
 		{
@@ -686,7 +714,8 @@ void SysTick_Handler(void)
 
 void EXTI0_IRQHandler()
 {
-	change_digit_2(1,1);
+		flag |= 0x1;
+	for(int i = 0; i <= 100000; ++i);
 	EXTI->PR |= EXTI_PR_PR0;
 }
 
@@ -742,5 +771,8 @@ int main(void)
 	// Power
 	change_digit_3(100);
 
-//	SysTick_Config(180);
+	// Timer
+	SysTick_Config(180);
+
+	while(1);
 }
