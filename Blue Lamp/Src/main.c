@@ -45,12 +45,17 @@
 #define  REFRESH_RATE 			  (1665)
 
 static uint16_t screen[130560];
-uint8_t flag = 0;
+uint8_t flags = 0;
 uint32_t cnt = 0;
 uint8_t minute = 0;
 uint8_t minute_2 = 0;
 uint8_t hour = 0;
 uint8_t hour_2 = 0;
+uint8_t set_minute = 0;
+uint8_t set_minute_2 = 0;
+uint8_t set_hour = 0;
+uint8_t set_hour_2 = 0;
+uint8_t power = 0;
 
 void initialization()
 {
@@ -89,7 +94,7 @@ void initialization()
 	GPIOC->AFR[0] |= GPIO_AFRL_AFRL6_1;
 	TIM3->PSC = 1080;
 	TIM3->ARR = 100;
-	TIM3->CCR1 = 50;
+	TIM3->CCR1 = power;
 	TIM3->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2;
 	TIM3->CCER |= TIM_CCER_CC1E;
 	TIM3->CR1 |= TIM_CR1_CEN;
@@ -407,7 +412,6 @@ void change_digit_1(int poz, int number)
 
 void change_digit_2(int poz, int number)
 {
-	change_digit_1(poz, number);
 	int x = 0;
 	int k = 0;
 
@@ -467,6 +471,21 @@ void change_digit_2(int poz, int number)
 void change_digit_3(int number)
 {
 	int k = 0;
+
+	if(number==200)
+	{
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[76+4861+i*480+j] = none_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[38+4861+i*480+j] = none_picture_3[k++];
+		k = 0;
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = none_picture_3[k++];
+	}
 
 	if(number==0)
 	{
@@ -640,16 +659,17 @@ void change_digit_3(int number)
 void SysTick_Handler(void)
 {
 	++cnt;
-	if(cnt == 300000 && (flag & 0x1) != 0)
+
+	if(cnt == 150000 && (flags & 0x1) != 0)
 	{
 		cnt = 0;
-		if((flag & 0x2) == 0)
+		if((flags & 0x80) == 0)
 		{
 			change_digit_1(1,10);
 			change_digit_1(2,10);
 			change_digit_1(3,10);
 			change_digit_1(4,10);
-			flag |= 0x2;
+			flags |= 0x80;
 		}
 		else
 		{
@@ -657,14 +677,24 @@ void SysTick_Handler(void)
 			change_digit_1(2,hour);
 			change_digit_1(3,minute_2);
 			change_digit_1(4,minute);
-			flag &= ~0x2;
+			flags &= ~0x80;
 		}
 	}
-	else
+	if(cnt == 150000 && (flags & 0x2) != 0)
 	{
-
+		cnt = 0;
+		if((flags & 0x40) == 0)
+		{
+			change_digit_3(200);
+			flags |= 0x40;
+		}
+		else
+		{
+			change_digit_3(power);
+			flags &= ~0x40;
+		}
 	}
-	if(cnt == 587500 && (flag & 0x4) != 0)
+	if(cnt == 587500 && (flags & 0x4) != 0)
 	{
 		if(minute == 0)
 		{
@@ -708,38 +738,156 @@ void SysTick_Handler(void)
 			--minute;
 			change_digit_2(4,minute);
 		}
-		change_digit_3(minute*10);
 	}
+	if((hour_2 == 0 && hour == 0 && minute_2 == 0 && minute == 0))
+	{
+		flags &= ~0x4;
+		TIM3->CCR1 = 0;
+	}
+	if(cnt == 600000)
+		cnt = 0;
 }
 
 void EXTI0_IRQHandler()
 {
-		flag |= 0x1;
-	for(int i = 0; i <= 100000; ++i);
+	if((flags & 0x4) == 0)
+	{
+		if((flags & 0x2) != 0)
+		{
+			flags &= ~0x2;
+			change_digit_3(power);
+		}
+		else
+		{
+			if((flags & 0x1) != 0)
+			{
+				flags |= 0x2;
+				flags &= ~0x1;
+				set_minute = minute;
+				set_minute_2 = minute_2;
+				set_hour = hour;
+				set_hour_2 = hour_2;
+				change_digit_1(1,set_hour_2);
+				change_digit_1(2,set_hour);
+				change_digit_1(3,set_minute_2);
+				change_digit_1(4,set_minute);
+
+			}
+			else
+				flags |= 0x1;
+		}
+	}
+	for(int i = 0; i <= 1000000; ++i);
 	EXTI->PR |= EXTI_PR_PR0;
 }
 
 void EXTI1_IRQHandler()
 {
-	change_digit_2(2,2);
+	if((flags & 0x2) != 0 && power != 100)
+		power += 10;
+	if((flags & 0x1) != 0)
+	{
+		if(hour_2 >= 9 && hour >= 9 && minute_2 >= 3 && minute >= 0)
+			goto end_plus;
+		else
+		{
+			minute_2 += 3;
+			if(minute_2 == 6)
+			{
+				++hour;
+				minute_2 = 0;
+				if(hour == 9)
+				{
+					++hour_2;
+					hour = 0;
+				}
+			}
+		}
+	}
+	end_plus:
+	for(int i = 0; i <= 300000; ++i);
 	EXTI->PR |= EXTI_PR_PR1;
 }
 
 void EXTI2_IRQHandler()
 {
-	change_digit_2(3,3);
+	if((flags & 0x2) != 0 && power != 0)
+		power -= 10;
+	if((flags & 0x1) != 0)
+	{
+		if((hour_2 == 0 && hour == 0 && minute_2 == 0 && minute == 0))
+			goto end_minus;
+		else
+		{
+			if(minute_2 == 0)
+			{
+				if(hour == 0)
+				{
+					--hour_2;
+					hour = 9;
+				}
+				else
+				{
+					--hour;
+					minute_2 = 3;
+				}
+			}
+			else
+				minute_2 -= 3;
+		}
+	}
+	end_minus:
+	for(int i = 0; i <= 300000; ++i);
 	EXTI->PR |= EXTI_PR_PR2;
 }
 
 void EXTI3_IRQHandler()
 {
-	change_digit_2(4,4);
+	if((flags & 0x4) == 0 && (flags & 0x1) == 0 && (flags & 0x2) == 0)
+	{
+		flags |= 0x4;
+		TIM3->CCR1 = power;
+		change_digit_1(1,set_hour_2);
+		change_digit_1(2,set_hour);
+		change_digit_1(3,set_minute_2);
+		change_digit_1(4,set_minute);
+		change_digit_2(1,hour_2);
+		change_digit_2(2,hour);
+		change_digit_2(3,minute_2);
+		change_digit_2(4,minute);
+	}
+	else
+	{
+		if((flags & 0x1) == 0 && (flags & 0x2) == 0)
+		{
+			TIM3->CCR1 = 0;
+			flags &= ~0x4;
+		}
+	}
+	for(int i = 0; i <= 1000000; ++i);
 	EXTI->PR |= EXTI_PR_PR3;
 }
 
 void EXTI4_IRQHandler()
 {
-	change_digit_2(1,5);
+	flags &= ~0x4;
+	TIM3->CCR1 = 0;
+	power = 0;
+	minute = 0;
+	minute_2 = 0;
+	hour = 0;
+	hour_2 = 0;
+	change_digit_1(1,0);
+	change_digit_1(2,0);
+	change_digit_1(3,0);
+	change_digit_1(4,0);
+	change_digit_2(1,0);
+	change_digit_2(2,0);
+	change_digit_2(3,0);
+	change_digit_2(4,0);
+	change_digit_3(0);
+
+	for(int i = 0; i <= 1000000; ++i);
 	EXTI->PR |= EXTI_PR_PR4;
 }
 
@@ -769,7 +917,7 @@ int main(void)
 	change_digit_2(4,minute);
 
 	// Power
-	change_digit_3(100);
+	change_digit_3(power);
 
 	// Timer
 	SysTick_Config(180);
