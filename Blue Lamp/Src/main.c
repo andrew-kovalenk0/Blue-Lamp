@@ -48,8 +48,8 @@ static uint16_t screen[130560];
 uint8_t flag = 0;
 uint32_t cnt = 0;
 uint8_t minute = 0;
-uint8_t minute_2 = 6;
-uint8_t hour = 9;
+uint8_t minute_2 = 0;
+uint8_t hour = 0;
 uint8_t hour_2 = 9;
 
 
@@ -612,7 +612,7 @@ void SysTick_Handler(void)
 	// 599000 - 1.3%
 	// 592500 - 0.38%
 	// 590000 - 0.038%
-	if(cnt == 580000)
+	if(cnt == 600000)
 	{
 		if(minute == 0)
 		{
@@ -622,17 +622,23 @@ void SysTick_Handler(void)
 				{
 					cnt = 819;
 					hour = 9;
+					minute_2 = 5;
+					minute = 9;
 					--hour_2;
 					change_digit_2(1,hour_2);
 					change_digit_2(2,9);
+					change_digit_2(3,5);
+					change_digit_2(4,9);
 				}
 				else
 				{
 					cnt = 683;
-					minute_2 = 6;
+					minute_2 = 5;
+					minute = 9;
 					--hour;
 					change_digit_2(2,hour);
-					change_digit_2(3,6);
+					change_digit_2(3,5);
+					change_digit_2(4,9);
 				}
 			}
 			else
@@ -668,16 +674,16 @@ int main(void)
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 
 	// Time
-	change_digit_1(1,9);
-	change_digit_1(2,9);
-	change_digit_1(3,6);
-	change_digit_1(4,0);
+	change_digit_1(1,hour_2);
+	change_digit_1(2,hour);
+	change_digit_1(3,minute_2);
+	change_digit_1(4,minute);
 
 	// Time 2
-	change_digit_2(1,9);
-	change_digit_2(2,9);
-	change_digit_2(3,6);
-	change_digit_2(4,0);
+	change_digit_2(1,hour_2);
+	change_digit_2(2,hour);
+	change_digit_2(3,minute_2);
+	change_digit_2(4,minute);
 
 	// Power
 	change_digit_3(100);

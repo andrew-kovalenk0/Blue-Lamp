@@ -5,4 +5,4 @@ main.c:318:6:change_digit_1	104	static
 main.c:376:6:change_digit_2	104	static
 main.c:435:6:change_digit_3	288	static
 main.c:608:6:SysTick_Handler	8	static
-main.c:657:5:main	16	static
+main.c:663:5:main	16	static
