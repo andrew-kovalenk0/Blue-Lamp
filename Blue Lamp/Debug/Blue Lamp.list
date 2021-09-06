@@ -182,11 +182,11 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
  800029c:	e000e010 	.word	0xe000e010
 
 080002a0 <EXTI0_IRQHandler>:
-uint8_t minute = 0;
-uint8_t minute_2 = 0;
-uint8_t hour = 0;
-uint8_t hour_2 = 9;
-
+// PI0 - D5
+// PI1 - D13
+// PI2 - D8
+// PI3 - D7
+// PB4 - D3
 void EXTI0_IRQHandler(){}
  80002a0:	b480      	push	{r7}
  80002a2:	af00      	add	r7, sp, #0

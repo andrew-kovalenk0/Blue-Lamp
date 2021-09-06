@@ -1,9 +1,9 @@
 core_cm7.h:2024:22:__NVIC_SetPriority	16	static
 core_cm7.h:2564:26:SysTick_Config	16	static
-main.c:55:6:EXTI0_IRQHandler	4	static
-main.c:57:6:initialization	16	static
-main.c:329:6:change_digit_1	104	static
-main.c:387:6:change_digit_2	104	static
-main.c:446:6:change_digit_3	288	static
-main.c:619:6:SysTick_Handler	8	static
-main.c:670:5:main	16	static
+main.c:60:6:EXTI0_IRQHandler	4	static
+main.c:62:6:initialization	16	static
+main.c:334:6:change_digit_1	104	static
+main.c:392:6:change_digit_2	104	static
+main.c:451:6:change_digit_3	288	static
+main.c:624:6:SysTick_Handler	8	static
+main.c:675:5:main	16	static

@@ -52,6 +52,11 @@ uint8_t minute_2 = 0;
 uint8_t hour = 0;
 uint8_t hour_2 = 9;
 
+// PI0 - D5
+// PI1 - D13
+// PI2 - D8
+// PI3 - D7
+// PB4 - D3
 void EXTI0_IRQHandler(){}
 
 void initialization()
