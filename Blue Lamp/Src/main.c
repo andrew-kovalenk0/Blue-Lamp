@@ -52,6 +52,7 @@ uint8_t minute_2 = 0;
 uint8_t hour = 0;
 uint8_t hour_2 = 9;
 
+void EXTI0_IRQHandler(){}
 
 void initialization()
 {
@@ -62,6 +63,7 @@ void initialization()
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOJEN;
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOKEN;
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOIEN;
+	RCC->APB1ENR |= RCC_APB1ENR_TIM3EN;
 
 	RCC->CR |= RCC_CR_HSEON;
 	while (!(RCC->CR & RCC_CR_HSERDY));
@@ -82,6 +84,15 @@ void initialization()
 	RCC->DCKCFGR1 	&= ~RCC_DCKCFGR1_PLLSAIDIVR_1;
 	RCC->CR |= RCC_CR_PLLSAION;
 	while ((RCC->CR & RCC_CR_PLLSAIRDY) == 0);
+
+	GPIOC->MODER |= GPIO_MODER_MODER6_1;
+	GPIOC->AFR[0] |= GPIO_AFRL_AFRL6_1;
+	TIM3->PSC = 1080;
+	TIM3->ARR = 100;
+	TIM3->CCR1 = 50;
+	TIM3->CCMR1 |= TIM_CCMR1_OC1M_1 | TIM_CCMR1_OC1M_2;
+	TIM3->CCER |= TIM_CCER_CC1E;
+	TIM3->CR1 |= TIM_CR1_CEN;
 
 	//B0 PE4
 	GPIOE->MODER   &= ~GPIO_MODER_MODER4;
@@ -608,11 +619,7 @@ void change_digit_3(int number)
 void SysTick_Handler(void)
 {
 	++cnt;
-	// 600000 - 1.5%
-	// 599000 - 1.3%
-	// 592500 - 0.38%
-	// 590000 - 0.038%
-	if(cnt == 600000)
+	if(cnt == 587500)
 	{
 		if(minute == 0)
 		{
