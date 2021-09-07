@@ -55,7 +55,7 @@ uint8_t set_minute = 0;
 uint8_t set_minute_2 = 0;
 uint8_t set_hour = 0;
 uint8_t set_hour_2 = 0;
-uint8_t power = 0;
+uint8_t power = 70;
 
 void initialization()
 {
@@ -660,41 +660,7 @@ void SysTick_Handler(void)
 {
 	++cnt;
 
-	if(cnt == 150000 && (flags & 0x1) != 0)
-	{
-		cnt = 0;
-		if((flags & 0x80) == 0)
-		{
-			change_digit_1(1,10);
-			change_digit_1(2,10);
-			change_digit_1(3,10);
-			change_digit_1(4,10);
-			flags |= 0x80;
-		}
-		else
-		{
-			change_digit_1(1,hour_2);
-			change_digit_1(2,hour);
-			change_digit_1(3,minute_2);
-			change_digit_1(4,minute);
-			flags &= ~0x80;
-		}
-	}
-	if(cnt == 150000 && (flags & 0x2) != 0)
-	{
-		cnt = 0;
-		if((flags & 0x40) == 0)
-		{
-			change_digit_3(200);
-			flags |= 0x40;
-		}
-		else
-		{
-			change_digit_3(power);
-			flags &= ~0x40;
-		}
-	}
-	if(cnt == 587500 && (flags & 0x4) != 0)
+	if(cnt == 475000 && (flags & 0x4) != 0)
 	{
 		if(minute == 0)
 		{
@@ -739,6 +705,41 @@ void SysTick_Handler(void)
 			change_digit_2(4,minute);
 		}
 	}
+
+	if(cnt == 150000 && (flags & 0x1) != 0)
+	{
+		cnt = 0;
+		if((flags & 0x80) == 0)
+		{
+			change_digit_1(1,10);
+			change_digit_1(2,10);
+			change_digit_1(3,10);
+			change_digit_1(4,10);
+			flags |= 0x80;
+		}
+		else
+		{
+			change_digit_1(1,hour_2);
+			change_digit_1(2,hour);
+			change_digit_1(3,minute_2);
+			change_digit_1(4,minute);
+			flags &= ~0x80;
+		}
+	}
+	if(cnt == 150000 && (flags & 0x2) != 0)
+	{
+		cnt = 0;
+		if((flags & 0x40) == 0)
+		{
+			change_digit_3(200);
+			flags |= 0x40;
+		}
+		else
+		{
+			change_digit_3(power);
+			flags &= ~0x40;
+		}
+	}
 	if((hour_2 == 0 && hour == 0 && minute_2 == 0 && minute == 0))
 	{
 		flags &= ~0x4;
@@ -771,7 +772,6 @@ void EXTI0_IRQHandler()
 				change_digit_1(2,set_hour);
 				change_digit_1(3,set_minute_2);
 				change_digit_1(4,set_minute);
-
 			}
 			else
 				flags |= 0x1;

@@ -9,41 +9,41 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
   2 .rodata       000e73cc  08002d80  08002d80  00012d80  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  080ea14c  080ea14c  000fa154  2**0
+  3 .ARM.extab    00000000  080ea14c  080ea14c  00100004  2**0
                   CONTENTS
-  4 .ARM          00000000  080ea14c  080ea14c  000fa154  2**0
+  4 .ARM          00000000  080ea14c  080ea14c  00100004  2**0
                   CONTENTS
-  5 .preinit_array 00000000  080ea14c  080ea154  000fa154  2**0
+  5 .preinit_array 00000000  080ea14c  080ea14c  00100004  2**0
                   CONTENTS, ALLOC, LOAD, DATA
   6 .init_array   00000004  080ea14c  080ea14c  000fa14c  2**2
                   CONTENTS, ALLOC, LOAD, DATA
   7 .fini_array   00000004  080ea150  080ea150  000fa150  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  8 .data         00000000  20000000  20000000  000fa154  2**0
+  8 .data         00000004  20000000  080ea154  00100000  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          0003fc30  20000000  080ea154  00100000  2**2
+  9 .bss          0003fc2c  20000004  080ea158  00100004  2**2
                   ALLOC
- 10 ._user_heap_stack 00000600  2003fc30  080ea154  000ffc30  2**0
+ 10 ._user_heap_stack 00000600  2003fc30  080ea158  0010fc30  2**0
                   ALLOC
- 11 .ARM.attributes 00000030  00000000  00000000  000fa154  2**0
+ 11 .ARM.attributes 00000030  00000000  00000000  00100004  2**0
                   CONTENTS, READONLY
- 12 .debug_info   000022bd  00000000  00000000  000fa184  2**0
+ 12 .debug_info   000022bd  00000000  00000000  00100034  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 000002c3  00000000  00000000  000fc441  2**0
+ 13 .debug_abbrev 000002c3  00000000  00000000  001022f1  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 000000b0  00000000  00000000  000fc708  2**3
+ 14 .debug_aranges 000000b0  00000000  00000000  001025b8  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_ranges 00000098  00000000  00000000  000fc7b8  2**3
+ 15 .debug_ranges 00000098  00000000  00000000  00102668  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0001b7a6  00000000  00000000  000fc850  2**0
+ 16 .debug_macro  0001b7a6  00000000  00000000  00102700  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0000228c  00000000  00000000  00117ff6  2**0
+ 17 .debug_line   0000228c  00000000  00000000  0011dea6  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0009b580  00000000  00000000  0011a282  2**0
+ 18 .debug_str    0009b580  00000000  00000000  00120132  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  001b5802  2**0
+ 19 .comment      00000053  00000000  00000000  001bb6b2  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00000248  00000000  00000000  001b5858  2**2
+ 20 .debug_frame  00000248  00000000  00000000  001bb708  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -60,7 +60,7 @@ Disassembly of section .text:
  80001da:	2301      	movs	r3, #1
  80001dc:	7023      	strb	r3, [r4, #0]
  80001de:	bd10      	pop	{r4, pc}
- 80001e0:	20000000 	.word	0x20000000
+ 80001e0:	20000004 	.word	0x20000004
  80001e4:	00000000 	.word	0x00000000
  80001e8:	08002d68 	.word	0x08002d68
 
@@ -73,7 +73,7 @@ Disassembly of section .text:
  80001f6:	f3af 8000 	nop.w
  80001fa:	bd08      	pop	{r3, pc}
  80001fc:	00000000 	.word	0x00000000
- 8000200:	20000004 	.word	0x20000004
+ 8000200:	20000008 	.word	0x20000008
  8000204:	08002d68 	.word	0x08002d68
 
 08000208 <__NVIC_EnableIRQ>:
@@ -220,7 +220,7 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 080002dc <initialization>:
 uint8_t set_hour = 0;
 uint8_t set_hour_2 = 0;
-uint8_t power = 0;
+uint8_t power = 70;
 
 void initialization()
 {
@@ -573,7 +573,7 @@ __STATIC_FORCEINLINE void __enable_irq(void)
  8000570:	40023c00 	.word	0x40023c00
  8000574:	40020800 	.word	0x40020800
  8000578:	40000400 	.word	0x40000400
- 800057c:	2003fc2c 	.word	0x2003fc2c
+ 800057c:	20000000 	.word	0x20000000
  8000580:	40013800 	.word	0x40013800
  8000584:	40013c00 	.word	0x40013c00
  8000588:	40021000 	.word	0x40021000
@@ -1605,7 +1605,7 @@ __STATIC_FORCEINLINE void __enable_irq(void)
  8000d28:	bd80      	pop	{r7, pc}
  8000d2a:	bf00      	nop
  8000d2c:	080aa54c 	.word	0x080aa54c
- 8000d30:	2000001c 	.word	0x2000001c
+ 8000d30:	20000020 	.word	0x20000020
  8000d34:	40022800 	.word	0x40022800
 
 08000d38 <change_digit_1>:
@@ -2026,7 +2026,7 @@ void change_digit_1(int poz, int number)
  8001020:	61bb      	str	r3, [r7, #24]
  8001022:	e029      	b.n	8001078 <change_digit_1+0x340>
  8001024:	080631ac 	.word	0x080631ac
- 8001028:	2000001c 	.word	0x2000001c
+ 8001028:	20000020 	.word	0x20000020
  800102c:	0800a520 	.word	0x0800a520
  8001030:	08005a5c 	.word	0x08005a5c
  8001034:	0800962c 	.word	0x0800962c
@@ -2174,7 +2174,7 @@ void change_digit_1(int poz, int number)
  800114a:	f85d 7b04 	ldr.w	r7, [sp], #4
  800114e:	4770      	bx	lr
  8001150:	08006950 	.word	0x08006950
- 8001154:	2000001c 	.word	0x2000001c
+ 8001154:	20000020 	.word	0x20000020
  8001158:	0800b414 	.word	0x0800b414
  800115c:	08004b68 	.word	0x08004b68
  8001160:	40016904 	.word	0x40016904
@@ -2599,7 +2599,7 @@ void change_digit_2(int poz, int number)
  8001454:	e02a      	b.n	80014ac <change_digit_2+0x344>
  8001456:	bf00      	nop
  8001458:	0804f7a8 	.word	0x0804f7a8
- 800145c:	2000001c 	.word	0x2000001c
+ 800145c:	20000020 	.word	0x20000020
  8001460:	080256c4 	.word	0x080256c4
  8001464:	08047114 	.word	0x08047114
  8001468:	0803ea80 	.word	0x0803ea80
@@ -2702,7 +2702,7 @@ void change_digit_2(int poz, int number)
  800152a:	f85d 7b04 	ldr.w	r7, [sp], #4
  800152e:	4770      	bx	lr
  8001530:	08057e3c 	.word	0x08057e3c
- 8001534:	2000001c 	.word	0x2000001c
+ 8001534:	20000020 	.word	0x20000020
  8001538:	0801d030 	.word	0x0801d030
  800153c:	40016904 	.word	0x40016904
  8001540:	40016800 	.word	0x40016800
@@ -3090,7 +3090,7 @@ void change_digit_3(int number)
  80018c4:	e025      	b.n	8001912 <change_digit_3+0x3ce>
  80018c6:	bf00      	nop
  80018c8:	080631ac 	.word	0x080631ac
- 80018cc:	2000001c 	.word	0x2000001c
+ 80018cc:	20000020 	.word	0x20000020
  80018d0:	08068b64 	.word	0x08068b64
  80018d4:	080640a0 	.word	0x080640a0
 				screen[4861+i*480+j] = none_picture_3[k++];
@@ -3453,7 +3453,7 @@ void change_digit_3(int number)
  8001c2e:	f8c7 30a4 	str.w	r3, [r7, #164]	; 0xa4
  8001c32:	e026      	b.n	8001c82 <change_digit_3+0x73e>
  8001c34:	080631ac 	.word	0x080631ac
- 8001c38:	2000001c 	.word	0x2000001c
+ 8001c38:	20000020 	.word	0x20000020
  8001c3c:	08068b64 	.word	0x08068b64
  8001c40:	08067c70 	.word	0x08067c70
  8001c44:	08066d7c 	.word	0x08066d7c
@@ -3818,7 +3818,7 @@ void change_digit_3(int number)
  8001f6c:	e025      	b.n	8001fba <change_digit_3+0xa76>
  8001f6e:	bf00      	nop
  8001f70:	080613c4 	.word	0x080613c4
- 8001f74:	2000001c 	.word	0x2000001c
+ 8001f74:	20000020 	.word	0x20000020
  8001f78:	080631ac 	.word	0x080631ac
  8001f7c:	08068b64 	.word	0x08068b64
  8001f80:	080604d0 	.word	0x080604d0
@@ -4191,7 +4191,7 @@ void change_digit_3(int number)
  800226c:	e02d      	b.n	80022ca <change_digit_3+0xd86>
  800226e:	bf00      	nop
  8002270:	08068b64 	.word	0x08068b64
- 8002274:	2000001c 	.word	0x2000001c
+ 8002274:	20000020 	.word	0x20000020
  8002278:	08064f94 	.word	0x08064f94
  800227c:	080631ac 	.word	0x080631ac
  8002280:	08069a58 	.word	0x08069a58
@@ -4420,7 +4420,7 @@ void change_digit_3(int number)
  8002488:	4770      	bx	lr
  800248a:	bf00      	nop
  800248c:	080631ac 	.word	0x080631ac
- 8002490:	2000001c 	.word	0x2000001c
+ 8002490:	20000020 	.word	0x20000020
  8002494:	08068b64 	.word	0x08068b64
  8002498:	080640a0 	.word	0x080640a0
  800249c:	40016904 	.word	0x40016904
@@ -4439,316 +4439,317 @@ void SysTick_Handler(void)
  80024ae:	4a8f      	ldr	r2, [pc, #572]	; (80026ec <SysTick_Handler+0x248>)
  80024b0:	6013      	str	r3, [r2, #0]
 
-	if(cnt == 150000 && (flags & 0x1) != 0)
+	if(cnt == 475000 && (flags & 0x4) != 0)
  80024b2:	4b8e      	ldr	r3, [pc, #568]	; (80026ec <SysTick_Handler+0x248>)
  80024b4:	681b      	ldr	r3, [r3, #0]
  80024b6:	4a8e      	ldr	r2, [pc, #568]	; (80026f0 <SysTick_Handler+0x24c>)
  80024b8:	4293      	cmp	r3, r2
- 80024ba:	d144      	bne.n	8002546 <SysTick_Handler+0xa2>
+ 80024ba:	d17d      	bne.n	80025b8 <SysTick_Handler+0x114>
  80024bc:	4b8d      	ldr	r3, [pc, #564]	; (80026f4 <SysTick_Handler+0x250>)
  80024be:	781b      	ldrb	r3, [r3, #0]
- 80024c0:	f003 0301 	and.w	r3, r3, #1
+ 80024c0:	f003 0304 	and.w	r3, r3, #4
  80024c4:	2b00      	cmp	r3, #0
- 80024c6:	d03e      	beq.n	8002546 <SysTick_Handler+0xa2>
-	{
-		cnt = 0;
- 80024c8:	4b88      	ldr	r3, [pc, #544]	; (80026ec <SysTick_Handler+0x248>)
- 80024ca:	2200      	movs	r2, #0
- 80024cc:	601a      	str	r2, [r3, #0]
-		if((flags & 0x80) == 0)
- 80024ce:	4b89      	ldr	r3, [pc, #548]	; (80026f4 <SysTick_Handler+0x250>)
- 80024d0:	781b      	ldrb	r3, [r3, #0]
- 80024d2:	b25b      	sxtb	r3, r3
- 80024d4:	2b00      	cmp	r3, #0
- 80024d6:	db17      	blt.n	8002508 <SysTick_Handler+0x64>
-		{
-			change_digit_1(1,10);
- 80024d8:	210a      	movs	r1, #10
- 80024da:	2001      	movs	r0, #1
- 80024dc:	f7fe fc2c 	bl	8000d38 <change_digit_1>
-			change_digit_1(2,10);
- 80024e0:	210a      	movs	r1, #10
- 80024e2:	2002      	movs	r0, #2
- 80024e4:	f7fe fc28 	bl	8000d38 <change_digit_1>
-			change_digit_1(3,10);
- 80024e8:	210a      	movs	r1, #10
- 80024ea:	2003      	movs	r0, #3
- 80024ec:	f7fe fc24 	bl	8000d38 <change_digit_1>
-			change_digit_1(4,10);
- 80024f0:	210a      	movs	r1, #10
- 80024f2:	2004      	movs	r0, #4
- 80024f4:	f7fe fc20 	bl	8000d38 <change_digit_1>
-			flags |= 0x80;
- 80024f8:	4b7e      	ldr	r3, [pc, #504]	; (80026f4 <SysTick_Handler+0x250>)
- 80024fa:	781b      	ldrb	r3, [r3, #0]
- 80024fc:	f063 037f 	orn	r3, r3, #127	; 0x7f
- 8002500:	b2da      	uxtb	r2, r3
- 8002502:	4b7c      	ldr	r3, [pc, #496]	; (80026f4 <SysTick_Handler+0x250>)
- 8002504:	701a      	strb	r2, [r3, #0]
- 8002506:	e01e      	b.n	8002546 <SysTick_Handler+0xa2>
-		}
-		else
-		{
-			change_digit_1(1,hour_2);
- 8002508:	4b7b      	ldr	r3, [pc, #492]	; (80026f8 <SysTick_Handler+0x254>)
- 800250a:	781b      	ldrb	r3, [r3, #0]
- 800250c:	4619      	mov	r1, r3
- 800250e:	2001      	movs	r0, #1
- 8002510:	f7fe fc12 	bl	8000d38 <change_digit_1>
-			change_digit_1(2,hour);
- 8002514:	4b79      	ldr	r3, [pc, #484]	; (80026fc <SysTick_Handler+0x258>)
- 8002516:	781b      	ldrb	r3, [r3, #0]
- 8002518:	4619      	mov	r1, r3
- 800251a:	2002      	movs	r0, #2
- 800251c:	f7fe fc0c 	bl	8000d38 <change_digit_1>
-			change_digit_1(3,minute_2);
- 8002520:	4b77      	ldr	r3, [pc, #476]	; (8002700 <SysTick_Handler+0x25c>)
- 8002522:	781b      	ldrb	r3, [r3, #0]
- 8002524:	4619      	mov	r1, r3
- 8002526:	2003      	movs	r0, #3
- 8002528:	f7fe fc06 	bl	8000d38 <change_digit_1>
-			change_digit_1(4,minute);
- 800252c:	4b75      	ldr	r3, [pc, #468]	; (8002704 <SysTick_Handler+0x260>)
- 800252e:	781b      	ldrb	r3, [r3, #0]
- 8002530:	4619      	mov	r1, r3
- 8002532:	2004      	movs	r0, #4
- 8002534:	f7fe fc00 	bl	8000d38 <change_digit_1>
-			flags &= ~0x80;
- 8002538:	4b6e      	ldr	r3, [pc, #440]	; (80026f4 <SysTick_Handler+0x250>)
- 800253a:	781b      	ldrb	r3, [r3, #0]
- 800253c:	f003 037f 	and.w	r3, r3, #127	; 0x7f
- 8002540:	b2da      	uxtb	r2, r3
- 8002542:	4b6c      	ldr	r3, [pc, #432]	; (80026f4 <SysTick_Handler+0x250>)
- 8002544:	701a      	strb	r2, [r3, #0]
-		}
-	}
-	if(cnt == 150000 && (flags & 0x2) != 0)
- 8002546:	4b69      	ldr	r3, [pc, #420]	; (80026ec <SysTick_Handler+0x248>)
- 8002548:	681b      	ldr	r3, [r3, #0]
- 800254a:	4a69      	ldr	r2, [pc, #420]	; (80026f0 <SysTick_Handler+0x24c>)
- 800254c:	4293      	cmp	r3, r2
- 800254e:	d125      	bne.n	800259c <SysTick_Handler+0xf8>
- 8002550:	4b68      	ldr	r3, [pc, #416]	; (80026f4 <SysTick_Handler+0x250>)
- 8002552:	781b      	ldrb	r3, [r3, #0]
- 8002554:	f003 0302 	and.w	r3, r3, #2
- 8002558:	2b00      	cmp	r3, #0
- 800255a:	d01f      	beq.n	800259c <SysTick_Handler+0xf8>
-	{
-		cnt = 0;
- 800255c:	4b63      	ldr	r3, [pc, #396]	; (80026ec <SysTick_Handler+0x248>)
- 800255e:	2200      	movs	r2, #0
- 8002560:	601a      	str	r2, [r3, #0]
-		if((flags & 0x40) == 0)
- 8002562:	4b64      	ldr	r3, [pc, #400]	; (80026f4 <SysTick_Handler+0x250>)
- 8002564:	781b      	ldrb	r3, [r3, #0]
- 8002566:	f003 0340 	and.w	r3, r3, #64	; 0x40
- 800256a:	2b00      	cmp	r3, #0
- 800256c:	d10a      	bne.n	8002584 <SysTick_Handler+0xe0>
-		{
-			change_digit_3(200);
- 800256e:	20c8      	movs	r0, #200	; 0xc8
- 8002570:	f7fe ffe8 	bl	8001544 <change_digit_3>
-			flags |= 0x40;
- 8002574:	4b5f      	ldr	r3, [pc, #380]	; (80026f4 <SysTick_Handler+0x250>)
- 8002576:	781b      	ldrb	r3, [r3, #0]
- 8002578:	f043 0340 	orr.w	r3, r3, #64	; 0x40
- 800257c:	b2da      	uxtb	r2, r3
- 800257e:	4b5d      	ldr	r3, [pc, #372]	; (80026f4 <SysTick_Handler+0x250>)
- 8002580:	701a      	strb	r2, [r3, #0]
- 8002582:	e00b      	b.n	800259c <SysTick_Handler+0xf8>
-		}
-		else
-		{
-			change_digit_3(power);
- 8002584:	4b60      	ldr	r3, [pc, #384]	; (8002708 <SysTick_Handler+0x264>)
- 8002586:	781b      	ldrb	r3, [r3, #0]
- 8002588:	4618      	mov	r0, r3
- 800258a:	f7fe ffdb 	bl	8001544 <change_digit_3>
-			flags &= ~0x40;
- 800258e:	4b59      	ldr	r3, [pc, #356]	; (80026f4 <SysTick_Handler+0x250>)
- 8002590:	781b      	ldrb	r3, [r3, #0]
- 8002592:	f023 0340 	bic.w	r3, r3, #64	; 0x40
- 8002596:	b2da      	uxtb	r2, r3
- 8002598:	4b56      	ldr	r3, [pc, #344]	; (80026f4 <SysTick_Handler+0x250>)
- 800259a:	701a      	strb	r2, [r3, #0]
-		}
-	}
-	if(cnt == 587500 && (flags & 0x4) != 0)
- 800259c:	4b53      	ldr	r3, [pc, #332]	; (80026ec <SysTick_Handler+0x248>)
- 800259e:	681b      	ldr	r3, [r3, #0]
- 80025a0:	4a5a      	ldr	r2, [pc, #360]	; (800270c <SysTick_Handler+0x268>)
- 80025a2:	4293      	cmp	r3, r2
- 80025a4:	d17d      	bne.n	80026a2 <SysTick_Handler+0x1fe>
- 80025a6:	4b53      	ldr	r3, [pc, #332]	; (80026f4 <SysTick_Handler+0x250>)
- 80025a8:	781b      	ldrb	r3, [r3, #0]
- 80025aa:	f003 0304 	and.w	r3, r3, #4
- 80025ae:	2b00      	cmp	r3, #0
- 80025b0:	d077      	beq.n	80026a2 <SysTick_Handler+0x1fe>
+ 80024c6:	d077      	beq.n	80025b8 <SysTick_Handler+0x114>
 	{
 		if(minute == 0)
- 80025b2:	4b54      	ldr	r3, [pc, #336]	; (8002704 <SysTick_Handler+0x260>)
- 80025b4:	781b      	ldrb	r3, [r3, #0]
- 80025b6:	2b00      	cmp	r3, #0
- 80025b8:	d164      	bne.n	8002684 <SysTick_Handler+0x1e0>
+ 80024c8:	4b8b      	ldr	r3, [pc, #556]	; (80026f8 <SysTick_Handler+0x254>)
+ 80024ca:	781b      	ldrb	r3, [r3, #0]
+ 80024cc:	2b00      	cmp	r3, #0
+ 80024ce:	d164      	bne.n	800259a <SysTick_Handler+0xf6>
 		{
 			if(minute_2 == 0)
- 80025ba:	4b51      	ldr	r3, [pc, #324]	; (8002700 <SysTick_Handler+0x25c>)
- 80025bc:	781b      	ldrb	r3, [r3, #0]
- 80025be:	2b00      	cmp	r3, #0
- 80025c0:	d148      	bne.n	8002654 <SysTick_Handler+0x1b0>
+ 80024d0:	4b8a      	ldr	r3, [pc, #552]	; (80026fc <SysTick_Handler+0x258>)
+ 80024d2:	781b      	ldrb	r3, [r3, #0]
+ 80024d4:	2b00      	cmp	r3, #0
+ 80024d6:	d148      	bne.n	800256a <SysTick_Handler+0xc6>
 			{
 				if(hour == 0)
- 80025c2:	4b4e      	ldr	r3, [pc, #312]	; (80026fc <SysTick_Handler+0x258>)
- 80025c4:	781b      	ldrb	r3, [r3, #0]
- 80025c6:	2b00      	cmp	r3, #0
- 80025c8:	d125      	bne.n	8002616 <SysTick_Handler+0x172>
+ 80024d8:	4b89      	ldr	r3, [pc, #548]	; (8002700 <SysTick_Handler+0x25c>)
+ 80024da:	781b      	ldrb	r3, [r3, #0]
+ 80024dc:	2b00      	cmp	r3, #0
+ 80024de:	d125      	bne.n	800252c <SysTick_Handler+0x88>
 				{
 					cnt = 819;
- 80025ca:	4b48      	ldr	r3, [pc, #288]	; (80026ec <SysTick_Handler+0x248>)
- 80025cc:	f240 3233 	movw	r2, #819	; 0x333
- 80025d0:	601a      	str	r2, [r3, #0]
+ 80024e0:	4b82      	ldr	r3, [pc, #520]	; (80026ec <SysTick_Handler+0x248>)
+ 80024e2:	f240 3233 	movw	r2, #819	; 0x333
+ 80024e6:	601a      	str	r2, [r3, #0]
 					hour = 9;
- 80025d2:	4b4a      	ldr	r3, [pc, #296]	; (80026fc <SysTick_Handler+0x258>)
- 80025d4:	2209      	movs	r2, #9
- 80025d6:	701a      	strb	r2, [r3, #0]
+ 80024e8:	4b85      	ldr	r3, [pc, #532]	; (8002700 <SysTick_Handler+0x25c>)
+ 80024ea:	2209      	movs	r2, #9
+ 80024ec:	701a      	strb	r2, [r3, #0]
 					minute_2 = 5;
- 80025d8:	4b49      	ldr	r3, [pc, #292]	; (8002700 <SysTick_Handler+0x25c>)
- 80025da:	2205      	movs	r2, #5
- 80025dc:	701a      	strb	r2, [r3, #0]
+ 80024ee:	4b83      	ldr	r3, [pc, #524]	; (80026fc <SysTick_Handler+0x258>)
+ 80024f0:	2205      	movs	r2, #5
+ 80024f2:	701a      	strb	r2, [r3, #0]
 					minute = 9;
- 80025de:	4b49      	ldr	r3, [pc, #292]	; (8002704 <SysTick_Handler+0x260>)
- 80025e0:	2209      	movs	r2, #9
- 80025e2:	701a      	strb	r2, [r3, #0]
+ 80024f4:	4b80      	ldr	r3, [pc, #512]	; (80026f8 <SysTick_Handler+0x254>)
+ 80024f6:	2209      	movs	r2, #9
+ 80024f8:	701a      	strb	r2, [r3, #0]
 					--hour_2;
- 80025e4:	4b44      	ldr	r3, [pc, #272]	; (80026f8 <SysTick_Handler+0x254>)
- 80025e6:	781b      	ldrb	r3, [r3, #0]
- 80025e8:	3b01      	subs	r3, #1
- 80025ea:	b2da      	uxtb	r2, r3
- 80025ec:	4b42      	ldr	r3, [pc, #264]	; (80026f8 <SysTick_Handler+0x254>)
- 80025ee:	701a      	strb	r2, [r3, #0]
+ 80024fa:	4b82      	ldr	r3, [pc, #520]	; (8002704 <SysTick_Handler+0x260>)
+ 80024fc:	781b      	ldrb	r3, [r3, #0]
+ 80024fe:	3b01      	subs	r3, #1
+ 8002500:	b2da      	uxtb	r2, r3
+ 8002502:	4b80      	ldr	r3, [pc, #512]	; (8002704 <SysTick_Handler+0x260>)
+ 8002504:	701a      	strb	r2, [r3, #0]
 					change_digit_2(1,hour_2);
- 80025f0:	4b41      	ldr	r3, [pc, #260]	; (80026f8 <SysTick_Handler+0x254>)
- 80025f2:	781b      	ldrb	r3, [r3, #0]
- 80025f4:	4619      	mov	r1, r3
- 80025f6:	2001      	movs	r0, #1
- 80025f8:	f7fe fdb6 	bl	8001168 <change_digit_2>
+ 8002506:	4b7f      	ldr	r3, [pc, #508]	; (8002704 <SysTick_Handler+0x260>)
+ 8002508:	781b      	ldrb	r3, [r3, #0]
+ 800250a:	4619      	mov	r1, r3
+ 800250c:	2001      	movs	r0, #1
+ 800250e:	f7fe fe2b 	bl	8001168 <change_digit_2>
 					change_digit_2(2,9);
- 80025fc:	2109      	movs	r1, #9
- 80025fe:	2002      	movs	r0, #2
- 8002600:	f7fe fdb2 	bl	8001168 <change_digit_2>
+ 8002512:	2109      	movs	r1, #9
+ 8002514:	2002      	movs	r0, #2
+ 8002516:	f7fe fe27 	bl	8001168 <change_digit_2>
 					change_digit_2(3,5);
- 8002604:	2105      	movs	r1, #5
- 8002606:	2003      	movs	r0, #3
- 8002608:	f7fe fdae 	bl	8001168 <change_digit_2>
+ 800251a:	2105      	movs	r1, #5
+ 800251c:	2003      	movs	r0, #3
+ 800251e:	f7fe fe23 	bl	8001168 <change_digit_2>
 					change_digit_2(4,9);
- 800260c:	2109      	movs	r1, #9
- 800260e:	2004      	movs	r0, #4
- 8002610:	f7fe fdaa 	bl	8001168 <change_digit_2>
- 8002614:	e045      	b.n	80026a2 <SysTick_Handler+0x1fe>
+ 8002522:	2109      	movs	r1, #9
+ 8002524:	2004      	movs	r0, #4
+ 8002526:	f7fe fe1f 	bl	8001168 <change_digit_2>
+ 800252a:	e045      	b.n	80025b8 <SysTick_Handler+0x114>
 				}
 				else
 				{
 					cnt = 683;
- 8002616:	4b35      	ldr	r3, [pc, #212]	; (80026ec <SysTick_Handler+0x248>)
- 8002618:	f240 22ab 	movw	r2, #683	; 0x2ab
- 800261c:	601a      	str	r2, [r3, #0]
+ 800252c:	4b6f      	ldr	r3, [pc, #444]	; (80026ec <SysTick_Handler+0x248>)
+ 800252e:	f240 22ab 	movw	r2, #683	; 0x2ab
+ 8002532:	601a      	str	r2, [r3, #0]
 					minute_2 = 5;
- 800261e:	4b38      	ldr	r3, [pc, #224]	; (8002700 <SysTick_Handler+0x25c>)
- 8002620:	2205      	movs	r2, #5
- 8002622:	701a      	strb	r2, [r3, #0]
+ 8002534:	4b71      	ldr	r3, [pc, #452]	; (80026fc <SysTick_Handler+0x258>)
+ 8002536:	2205      	movs	r2, #5
+ 8002538:	701a      	strb	r2, [r3, #0]
 					minute = 9;
- 8002624:	4b37      	ldr	r3, [pc, #220]	; (8002704 <SysTick_Handler+0x260>)
- 8002626:	2209      	movs	r2, #9
- 8002628:	701a      	strb	r2, [r3, #0]
+ 800253a:	4b6f      	ldr	r3, [pc, #444]	; (80026f8 <SysTick_Handler+0x254>)
+ 800253c:	2209      	movs	r2, #9
+ 800253e:	701a      	strb	r2, [r3, #0]
 					--hour;
- 800262a:	4b34      	ldr	r3, [pc, #208]	; (80026fc <SysTick_Handler+0x258>)
- 800262c:	781b      	ldrb	r3, [r3, #0]
- 800262e:	3b01      	subs	r3, #1
- 8002630:	b2da      	uxtb	r2, r3
- 8002632:	4b32      	ldr	r3, [pc, #200]	; (80026fc <SysTick_Handler+0x258>)
- 8002634:	701a      	strb	r2, [r3, #0]
+ 8002540:	4b6f      	ldr	r3, [pc, #444]	; (8002700 <SysTick_Handler+0x25c>)
+ 8002542:	781b      	ldrb	r3, [r3, #0]
+ 8002544:	3b01      	subs	r3, #1
+ 8002546:	b2da      	uxtb	r2, r3
+ 8002548:	4b6d      	ldr	r3, [pc, #436]	; (8002700 <SysTick_Handler+0x25c>)
+ 800254a:	701a      	strb	r2, [r3, #0]
 					change_digit_2(2,hour);
- 8002636:	4b31      	ldr	r3, [pc, #196]	; (80026fc <SysTick_Handler+0x258>)
- 8002638:	781b      	ldrb	r3, [r3, #0]
- 800263a:	4619      	mov	r1, r3
- 800263c:	2002      	movs	r0, #2
- 800263e:	f7fe fd93 	bl	8001168 <change_digit_2>
+ 800254c:	4b6c      	ldr	r3, [pc, #432]	; (8002700 <SysTick_Handler+0x25c>)
+ 800254e:	781b      	ldrb	r3, [r3, #0]
+ 8002550:	4619      	mov	r1, r3
+ 8002552:	2002      	movs	r0, #2
+ 8002554:	f7fe fe08 	bl	8001168 <change_digit_2>
 					change_digit_2(3,5);
- 8002642:	2105      	movs	r1, #5
- 8002644:	2003      	movs	r0, #3
- 8002646:	f7fe fd8f 	bl	8001168 <change_digit_2>
+ 8002558:	2105      	movs	r1, #5
+ 800255a:	2003      	movs	r0, #3
+ 800255c:	f7fe fe04 	bl	8001168 <change_digit_2>
 					change_digit_2(4,9);
- 800264a:	2109      	movs	r1, #9
- 800264c:	2004      	movs	r0, #4
- 800264e:	f7fe fd8b 	bl	8001168 <change_digit_2>
- 8002652:	e026      	b.n	80026a2 <SysTick_Handler+0x1fe>
+ 8002560:	2109      	movs	r1, #9
+ 8002562:	2004      	movs	r0, #4
+ 8002564:	f7fe fe00 	bl	8001168 <change_digit_2>
+ 8002568:	e026      	b.n	80025b8 <SysTick_Handler+0x114>
 				}
 			}
 			else
 			{
 				cnt = 414;
- 8002654:	4b25      	ldr	r3, [pc, #148]	; (80026ec <SysTick_Handler+0x248>)
- 8002656:	f44f 72cf 	mov.w	r2, #414	; 0x19e
- 800265a:	601a      	str	r2, [r3, #0]
+ 800256a:	4b60      	ldr	r3, [pc, #384]	; (80026ec <SysTick_Handler+0x248>)
+ 800256c:	f44f 72cf 	mov.w	r2, #414	; 0x19e
+ 8002570:	601a      	str	r2, [r3, #0]
 				minute = 9;
- 800265c:	4b29      	ldr	r3, [pc, #164]	; (8002704 <SysTick_Handler+0x260>)
- 800265e:	2209      	movs	r2, #9
- 8002660:	701a      	strb	r2, [r3, #0]
+ 8002572:	4b61      	ldr	r3, [pc, #388]	; (80026f8 <SysTick_Handler+0x254>)
+ 8002574:	2209      	movs	r2, #9
+ 8002576:	701a      	strb	r2, [r3, #0]
 				--minute_2;
- 8002662:	4b27      	ldr	r3, [pc, #156]	; (8002700 <SysTick_Handler+0x25c>)
- 8002664:	781b      	ldrb	r3, [r3, #0]
- 8002666:	3b01      	subs	r3, #1
- 8002668:	b2da      	uxtb	r2, r3
- 800266a:	4b25      	ldr	r3, [pc, #148]	; (8002700 <SysTick_Handler+0x25c>)
- 800266c:	701a      	strb	r2, [r3, #0]
+ 8002578:	4b60      	ldr	r3, [pc, #384]	; (80026fc <SysTick_Handler+0x258>)
+ 800257a:	781b      	ldrb	r3, [r3, #0]
+ 800257c:	3b01      	subs	r3, #1
+ 800257e:	b2da      	uxtb	r2, r3
+ 8002580:	4b5e      	ldr	r3, [pc, #376]	; (80026fc <SysTick_Handler+0x258>)
+ 8002582:	701a      	strb	r2, [r3, #0]
 				change_digit_2(3,minute_2);
- 800266e:	4b24      	ldr	r3, [pc, #144]	; (8002700 <SysTick_Handler+0x25c>)
- 8002670:	781b      	ldrb	r3, [r3, #0]
- 8002672:	4619      	mov	r1, r3
- 8002674:	2003      	movs	r0, #3
- 8002676:	f7fe fd77 	bl	8001168 <change_digit_2>
+ 8002584:	4b5d      	ldr	r3, [pc, #372]	; (80026fc <SysTick_Handler+0x258>)
+ 8002586:	781b      	ldrb	r3, [r3, #0]
+ 8002588:	4619      	mov	r1, r3
+ 800258a:	2003      	movs	r0, #3
+ 800258c:	f7fe fdec 	bl	8001168 <change_digit_2>
 				change_digit_2(4,9);
- 800267a:	2109      	movs	r1, #9
- 800267c:	2004      	movs	r0, #4
- 800267e:	f7fe fd73 	bl	8001168 <change_digit_2>
- 8002682:	e00e      	b.n	80026a2 <SysTick_Handler+0x1fe>
+ 8002590:	2109      	movs	r1, #9
+ 8002592:	2004      	movs	r0, #4
+ 8002594:	f7fe fde8 	bl	8001168 <change_digit_2>
+ 8002598:	e00e      	b.n	80025b8 <SysTick_Handler+0x114>
 			}
 		}
 		else
 		{
 			cnt = 136;
- 8002684:	4b19      	ldr	r3, [pc, #100]	; (80026ec <SysTick_Handler+0x248>)
- 8002686:	2288      	movs	r2, #136	; 0x88
- 8002688:	601a      	str	r2, [r3, #0]
+ 800259a:	4b54      	ldr	r3, [pc, #336]	; (80026ec <SysTick_Handler+0x248>)
+ 800259c:	2288      	movs	r2, #136	; 0x88
+ 800259e:	601a      	str	r2, [r3, #0]
 			--minute;
- 800268a:	4b1e      	ldr	r3, [pc, #120]	; (8002704 <SysTick_Handler+0x260>)
- 800268c:	781b      	ldrb	r3, [r3, #0]
- 800268e:	3b01      	subs	r3, #1
- 8002690:	b2da      	uxtb	r2, r3
- 8002692:	4b1c      	ldr	r3, [pc, #112]	; (8002704 <SysTick_Handler+0x260>)
- 8002694:	701a      	strb	r2, [r3, #0]
+ 80025a0:	4b55      	ldr	r3, [pc, #340]	; (80026f8 <SysTick_Handler+0x254>)
+ 80025a2:	781b      	ldrb	r3, [r3, #0]
+ 80025a4:	3b01      	subs	r3, #1
+ 80025a6:	b2da      	uxtb	r2, r3
+ 80025a8:	4b53      	ldr	r3, [pc, #332]	; (80026f8 <SysTick_Handler+0x254>)
+ 80025aa:	701a      	strb	r2, [r3, #0]
 			change_digit_2(4,minute);
- 8002696:	4b1b      	ldr	r3, [pc, #108]	; (8002704 <SysTick_Handler+0x260>)
- 8002698:	781b      	ldrb	r3, [r3, #0]
- 800269a:	4619      	mov	r1, r3
- 800269c:	2004      	movs	r0, #4
- 800269e:	f7fe fd63 	bl	8001168 <change_digit_2>
+ 80025ac:	4b52      	ldr	r3, [pc, #328]	; (80026f8 <SysTick_Handler+0x254>)
+ 80025ae:	781b      	ldrb	r3, [r3, #0]
+ 80025b0:	4619      	mov	r1, r3
+ 80025b2:	2004      	movs	r0, #4
+ 80025b4:	f7fe fdd8 	bl	8001168 <change_digit_2>
+		}
+	}
+
+	if(cnt == 150000 && (flags & 0x1) != 0)
+ 80025b8:	4b4c      	ldr	r3, [pc, #304]	; (80026ec <SysTick_Handler+0x248>)
+ 80025ba:	681b      	ldr	r3, [r3, #0]
+ 80025bc:	4a52      	ldr	r2, [pc, #328]	; (8002708 <SysTick_Handler+0x264>)
+ 80025be:	4293      	cmp	r3, r2
+ 80025c0:	d144      	bne.n	800264c <SysTick_Handler+0x1a8>
+ 80025c2:	4b4c      	ldr	r3, [pc, #304]	; (80026f4 <SysTick_Handler+0x250>)
+ 80025c4:	781b      	ldrb	r3, [r3, #0]
+ 80025c6:	f003 0301 	and.w	r3, r3, #1
+ 80025ca:	2b00      	cmp	r3, #0
+ 80025cc:	d03e      	beq.n	800264c <SysTick_Handler+0x1a8>
+	{
+		cnt = 0;
+ 80025ce:	4b47      	ldr	r3, [pc, #284]	; (80026ec <SysTick_Handler+0x248>)
+ 80025d0:	2200      	movs	r2, #0
+ 80025d2:	601a      	str	r2, [r3, #0]
+		if((flags & 0x80) == 0)
+ 80025d4:	4b47      	ldr	r3, [pc, #284]	; (80026f4 <SysTick_Handler+0x250>)
+ 80025d6:	781b      	ldrb	r3, [r3, #0]
+ 80025d8:	b25b      	sxtb	r3, r3
+ 80025da:	2b00      	cmp	r3, #0
+ 80025dc:	db17      	blt.n	800260e <SysTick_Handler+0x16a>
+		{
+			change_digit_1(1,10);
+ 80025de:	210a      	movs	r1, #10
+ 80025e0:	2001      	movs	r0, #1
+ 80025e2:	f7fe fba9 	bl	8000d38 <change_digit_1>
+			change_digit_1(2,10);
+ 80025e6:	210a      	movs	r1, #10
+ 80025e8:	2002      	movs	r0, #2
+ 80025ea:	f7fe fba5 	bl	8000d38 <change_digit_1>
+			change_digit_1(3,10);
+ 80025ee:	210a      	movs	r1, #10
+ 80025f0:	2003      	movs	r0, #3
+ 80025f2:	f7fe fba1 	bl	8000d38 <change_digit_1>
+			change_digit_1(4,10);
+ 80025f6:	210a      	movs	r1, #10
+ 80025f8:	2004      	movs	r0, #4
+ 80025fa:	f7fe fb9d 	bl	8000d38 <change_digit_1>
+			flags |= 0x80;
+ 80025fe:	4b3d      	ldr	r3, [pc, #244]	; (80026f4 <SysTick_Handler+0x250>)
+ 8002600:	781b      	ldrb	r3, [r3, #0]
+ 8002602:	f063 037f 	orn	r3, r3, #127	; 0x7f
+ 8002606:	b2da      	uxtb	r2, r3
+ 8002608:	4b3a      	ldr	r3, [pc, #232]	; (80026f4 <SysTick_Handler+0x250>)
+ 800260a:	701a      	strb	r2, [r3, #0]
+ 800260c:	e01e      	b.n	800264c <SysTick_Handler+0x1a8>
+		}
+		else
+		{
+			change_digit_1(1,hour_2);
+ 800260e:	4b3d      	ldr	r3, [pc, #244]	; (8002704 <SysTick_Handler+0x260>)
+ 8002610:	781b      	ldrb	r3, [r3, #0]
+ 8002612:	4619      	mov	r1, r3
+ 8002614:	2001      	movs	r0, #1
+ 8002616:	f7fe fb8f 	bl	8000d38 <change_digit_1>
+			change_digit_1(2,hour);
+ 800261a:	4b39      	ldr	r3, [pc, #228]	; (8002700 <SysTick_Handler+0x25c>)
+ 800261c:	781b      	ldrb	r3, [r3, #0]
+ 800261e:	4619      	mov	r1, r3
+ 8002620:	2002      	movs	r0, #2
+ 8002622:	f7fe fb89 	bl	8000d38 <change_digit_1>
+			change_digit_1(3,minute_2);
+ 8002626:	4b35      	ldr	r3, [pc, #212]	; (80026fc <SysTick_Handler+0x258>)
+ 8002628:	781b      	ldrb	r3, [r3, #0]
+ 800262a:	4619      	mov	r1, r3
+ 800262c:	2003      	movs	r0, #3
+ 800262e:	f7fe fb83 	bl	8000d38 <change_digit_1>
+			change_digit_1(4,minute);
+ 8002632:	4b31      	ldr	r3, [pc, #196]	; (80026f8 <SysTick_Handler+0x254>)
+ 8002634:	781b      	ldrb	r3, [r3, #0]
+ 8002636:	4619      	mov	r1, r3
+ 8002638:	2004      	movs	r0, #4
+ 800263a:	f7fe fb7d 	bl	8000d38 <change_digit_1>
+			flags &= ~0x80;
+ 800263e:	4b2d      	ldr	r3, [pc, #180]	; (80026f4 <SysTick_Handler+0x250>)
+ 8002640:	781b      	ldrb	r3, [r3, #0]
+ 8002642:	f003 037f 	and.w	r3, r3, #127	; 0x7f
+ 8002646:	b2da      	uxtb	r2, r3
+ 8002648:	4b2a      	ldr	r3, [pc, #168]	; (80026f4 <SysTick_Handler+0x250>)
+ 800264a:	701a      	strb	r2, [r3, #0]
+		}
+	}
+	if(cnt == 150000 && (flags & 0x2) != 0)
+ 800264c:	4b27      	ldr	r3, [pc, #156]	; (80026ec <SysTick_Handler+0x248>)
+ 800264e:	681b      	ldr	r3, [r3, #0]
+ 8002650:	4a2d      	ldr	r2, [pc, #180]	; (8002708 <SysTick_Handler+0x264>)
+ 8002652:	4293      	cmp	r3, r2
+ 8002654:	d125      	bne.n	80026a2 <SysTick_Handler+0x1fe>
+ 8002656:	4b27      	ldr	r3, [pc, #156]	; (80026f4 <SysTick_Handler+0x250>)
+ 8002658:	781b      	ldrb	r3, [r3, #0]
+ 800265a:	f003 0302 	and.w	r3, r3, #2
+ 800265e:	2b00      	cmp	r3, #0
+ 8002660:	d01f      	beq.n	80026a2 <SysTick_Handler+0x1fe>
+	{
+		cnt = 0;
+ 8002662:	4b22      	ldr	r3, [pc, #136]	; (80026ec <SysTick_Handler+0x248>)
+ 8002664:	2200      	movs	r2, #0
+ 8002666:	601a      	str	r2, [r3, #0]
+		if((flags & 0x40) == 0)
+ 8002668:	4b22      	ldr	r3, [pc, #136]	; (80026f4 <SysTick_Handler+0x250>)
+ 800266a:	781b      	ldrb	r3, [r3, #0]
+ 800266c:	f003 0340 	and.w	r3, r3, #64	; 0x40
+ 8002670:	2b00      	cmp	r3, #0
+ 8002672:	d10a      	bne.n	800268a <SysTick_Handler+0x1e6>
+		{
+			change_digit_3(200);
+ 8002674:	20c8      	movs	r0, #200	; 0xc8
+ 8002676:	f7fe ff65 	bl	8001544 <change_digit_3>
+			flags |= 0x40;
+ 800267a:	4b1e      	ldr	r3, [pc, #120]	; (80026f4 <SysTick_Handler+0x250>)
+ 800267c:	781b      	ldrb	r3, [r3, #0]
+ 800267e:	f043 0340 	orr.w	r3, r3, #64	; 0x40
+ 8002682:	b2da      	uxtb	r2, r3
+ 8002684:	4b1b      	ldr	r3, [pc, #108]	; (80026f4 <SysTick_Handler+0x250>)
+ 8002686:	701a      	strb	r2, [r3, #0]
+ 8002688:	e00b      	b.n	80026a2 <SysTick_Handler+0x1fe>
+		}
+		else
+		{
+			change_digit_3(power);
+ 800268a:	4b20      	ldr	r3, [pc, #128]	; (800270c <SysTick_Handler+0x268>)
+ 800268c:	781b      	ldrb	r3, [r3, #0]
+ 800268e:	4618      	mov	r0, r3
+ 8002690:	f7fe ff58 	bl	8001544 <change_digit_3>
+			flags &= ~0x40;
+ 8002694:	4b17      	ldr	r3, [pc, #92]	; (80026f4 <SysTick_Handler+0x250>)
+ 8002696:	781b      	ldrb	r3, [r3, #0]
+ 8002698:	f023 0340 	bic.w	r3, r3, #64	; 0x40
+ 800269c:	b2da      	uxtb	r2, r3
+ 800269e:	4b15      	ldr	r3, [pc, #84]	; (80026f4 <SysTick_Handler+0x250>)
+ 80026a0:	701a      	strb	r2, [r3, #0]
 		}
 	}
 	if((hour_2 == 0 && hour == 0 && minute_2 == 0 && minute == 0))
- 80026a2:	4b15      	ldr	r3, [pc, #84]	; (80026f8 <SysTick_Handler+0x254>)
+ 80026a2:	4b18      	ldr	r3, [pc, #96]	; (8002704 <SysTick_Handler+0x260>)
  80026a4:	781b      	ldrb	r3, [r3, #0]
  80026a6:	2b00      	cmp	r3, #0
  80026a8:	d115      	bne.n	80026d6 <SysTick_Handler+0x232>
- 80026aa:	4b14      	ldr	r3, [pc, #80]	; (80026fc <SysTick_Handler+0x258>)
+ 80026aa:	4b15      	ldr	r3, [pc, #84]	; (8002700 <SysTick_Handler+0x25c>)
  80026ac:	781b      	ldrb	r3, [r3, #0]
  80026ae:	2b00      	cmp	r3, #0
  80026b0:	d111      	bne.n	80026d6 <SysTick_Handler+0x232>
- 80026b2:	4b13      	ldr	r3, [pc, #76]	; (8002700 <SysTick_Handler+0x25c>)
+ 80026b2:	4b12      	ldr	r3, [pc, #72]	; (80026fc <SysTick_Handler+0x258>)
  80026b4:	781b      	ldrb	r3, [r3, #0]
  80026b6:	2b00      	cmp	r3, #0
  80026b8:	d10d      	bne.n	80026d6 <SysTick_Handler+0x232>
- 80026ba:	4b12      	ldr	r3, [pc, #72]	; (8002704 <SysTick_Handler+0x260>)
+ 80026ba:	4b0f      	ldr	r3, [pc, #60]	; (80026f8 <SysTick_Handler+0x254>)
  80026bc:	781b      	ldrb	r3, [r3, #0]
  80026be:	2b00      	cmp	r3, #0
  80026c0:	d109      	bne.n	80026d6 <SysTick_Handler+0x232>
@@ -4779,15 +4780,15 @@ void SysTick_Handler(void)
  80026e6:	bf00      	nop
  80026e8:	bd80      	pop	{r7, pc}
  80026ea:	bf00      	nop
- 80026ec:	2003fc20 	.word	0x2003fc20
- 80026f0:	000249f0 	.word	0x000249f0
- 80026f4:	2003fc1c 	.word	0x2003fc1c
- 80026f8:	2003fc27 	.word	0x2003fc27
- 80026fc:	2003fc26 	.word	0x2003fc26
- 8002700:	2003fc25 	.word	0x2003fc25
- 8002704:	2003fc24 	.word	0x2003fc24
- 8002708:	2003fc2c 	.word	0x2003fc2c
- 800270c:	0008f6ec 	.word	0x0008f6ec
+ 80026ec:	2003fc24 	.word	0x2003fc24
+ 80026f0:	00073f78 	.word	0x00073f78
+ 80026f4:	2003fc20 	.word	0x2003fc20
+ 80026f8:	2003fc28 	.word	0x2003fc28
+ 80026fc:	2003fc29 	.word	0x2003fc29
+ 8002700:	2003fc2a 	.word	0x2003fc2a
+ 8002704:	2003fc2b 	.word	0x2003fc2b
+ 8002708:	000249f0 	.word	0x000249f0
+ 800270c:	20000000 	.word	0x20000000
  8002710:	40000400 	.word	0x40000400
  8002714:	000927c0 	.word	0x000927c0
 
@@ -4894,7 +4895,6 @@ void EXTI0_IRQHandler()
  80027c2:	2004      	movs	r0, #4
  80027c4:	f7fe fab8 	bl	8000d38 <change_digit_1>
  80027c8:	e006      	b.n	80027d8 <EXTI0_IRQHandler+0xc0>
-
 			}
 			else
 				flags |= 0x1;
@@ -4928,16 +4928,16 @@ void EXTI0_IRQHandler()
  80027fa:	3708      	adds	r7, #8
  80027fc:	46bd      	mov	sp, r7
  80027fe:	bd80      	pop	{r7, pc}
- 8002800:	2003fc1c 	.word	0x2003fc1c
- 8002804:	2003fc2c 	.word	0x2003fc2c
- 8002808:	2003fc24 	.word	0x2003fc24
- 800280c:	2003fc28 	.word	0x2003fc28
- 8002810:	2003fc25 	.word	0x2003fc25
- 8002814:	2003fc29 	.word	0x2003fc29
- 8002818:	2003fc26 	.word	0x2003fc26
- 800281c:	2003fc2a 	.word	0x2003fc2a
- 8002820:	2003fc27 	.word	0x2003fc27
- 8002824:	2003fc2b 	.word	0x2003fc2b
+ 8002800:	2003fc20 	.word	0x2003fc20
+ 8002804:	20000000 	.word	0x20000000
+ 8002808:	2003fc28 	.word	0x2003fc28
+ 800280c:	2003fc2c 	.word	0x2003fc2c
+ 8002810:	2003fc29 	.word	0x2003fc29
+ 8002814:	2003fc2d 	.word	0x2003fc2d
+ 8002818:	2003fc2a 	.word	0x2003fc2a
+ 800281c:	2003fc2e 	.word	0x2003fc2e
+ 8002820:	2003fc2b 	.word	0x2003fc2b
+ 8002824:	2003fc2f 	.word	0x2003fc2f
  8002828:	000f4240 	.word	0x000f4240
  800282c:	40013c00 	.word	0x40013c00
 
@@ -5063,11 +5063,11 @@ void EXTI1_IRQHandler()
  80028e8:	f85d 7b04 	ldr.w	r7, [sp], #4
  80028ec:	4770      	bx	lr
  80028ee:	bf00      	nop
- 80028f0:	2003fc1c 	.word	0x2003fc1c
- 80028f4:	2003fc2c 	.word	0x2003fc2c
- 80028f8:	2003fc27 	.word	0x2003fc27
- 80028fc:	2003fc26 	.word	0x2003fc26
- 8002900:	2003fc25 	.word	0x2003fc25
+ 80028f0:	2003fc20 	.word	0x2003fc20
+ 80028f4:	20000000 	.word	0x20000000
+ 80028f8:	2003fc2b 	.word	0x2003fc2b
+ 80028fc:	2003fc2a 	.word	0x2003fc2a
+ 8002900:	2003fc29 	.word	0x2003fc29
  8002904:	000493e0 	.word	0x000493e0
  8002908:	40013c00 	.word	0x40013c00
 
@@ -5203,12 +5203,12 @@ void EXTI2_IRQHandler()
  80029d0:	f85d 7b04 	ldr.w	r7, [sp], #4
  80029d4:	4770      	bx	lr
  80029d6:	bf00      	nop
- 80029d8:	2003fc1c 	.word	0x2003fc1c
- 80029dc:	2003fc2c 	.word	0x2003fc2c
- 80029e0:	2003fc27 	.word	0x2003fc27
- 80029e4:	2003fc26 	.word	0x2003fc26
- 80029e8:	2003fc25 	.word	0x2003fc25
- 80029ec:	2003fc24 	.word	0x2003fc24
+ 80029d8:	2003fc20 	.word	0x2003fc20
+ 80029dc:	20000000 	.word	0x20000000
+ 80029e0:	2003fc2b 	.word	0x2003fc2b
+ 80029e4:	2003fc2a 	.word	0x2003fc2a
+ 80029e8:	2003fc29 	.word	0x2003fc29
+ 80029ec:	2003fc28 	.word	0x2003fc28
  80029f0:	000493e0 	.word	0x000493e0
  80029f4:	40013c00 	.word	0x40013c00
 
@@ -5348,17 +5348,17 @@ void EXTI3_IRQHandler()
  8002aea:	46bd      	mov	sp, r7
  8002aec:	bd80      	pop	{r7, pc}
  8002aee:	bf00      	nop
- 8002af0:	2003fc1c 	.word	0x2003fc1c
- 8002af4:	2003fc2c 	.word	0x2003fc2c
+ 8002af0:	2003fc20 	.word	0x2003fc20
+ 8002af4:	20000000 	.word	0x20000000
  8002af8:	40000400 	.word	0x40000400
- 8002afc:	2003fc2b 	.word	0x2003fc2b
- 8002b00:	2003fc2a 	.word	0x2003fc2a
- 8002b04:	2003fc29 	.word	0x2003fc29
- 8002b08:	2003fc28 	.word	0x2003fc28
- 8002b0c:	2003fc27 	.word	0x2003fc27
- 8002b10:	2003fc26 	.word	0x2003fc26
- 8002b14:	2003fc25 	.word	0x2003fc25
- 8002b18:	2003fc24 	.word	0x2003fc24
+ 8002afc:	2003fc2f 	.word	0x2003fc2f
+ 8002b00:	2003fc2e 	.word	0x2003fc2e
+ 8002b04:	2003fc2d 	.word	0x2003fc2d
+ 8002b08:	2003fc2c 	.word	0x2003fc2c
+ 8002b0c:	2003fc2b 	.word	0x2003fc2b
+ 8002b10:	2003fc2a 	.word	0x2003fc2a
+ 8002b14:	2003fc29 	.word	0x2003fc29
+ 8002b18:	2003fc28 	.word	0x2003fc28
  8002b1c:	000f4240 	.word	0x000f4240
  8002b20:	40013c00 	.word	0x40013c00
 
@@ -5459,13 +5459,13 @@ void EXTI4_IRQHandler()
  8002bc6:	46bd      	mov	sp, r7
  8002bc8:	bd80      	pop	{r7, pc}
  8002bca:	bf00      	nop
- 8002bcc:	2003fc1c 	.word	0x2003fc1c
+ 8002bcc:	2003fc20 	.word	0x2003fc20
  8002bd0:	40000400 	.word	0x40000400
- 8002bd4:	2003fc2c 	.word	0x2003fc2c
- 8002bd8:	2003fc24 	.word	0x2003fc24
- 8002bdc:	2003fc25 	.word	0x2003fc25
- 8002be0:	2003fc26 	.word	0x2003fc26
- 8002be4:	2003fc27 	.word	0x2003fc27
+ 8002bd4:	20000000 	.word	0x20000000
+ 8002bd8:	2003fc28 	.word	0x2003fc28
+ 8002bdc:	2003fc29 	.word	0x2003fc29
+ 8002be0:	2003fc2a 	.word	0x2003fc2a
+ 8002be4:	2003fc2b 	.word	0x2003fc2b
  8002be8:	000f4240 	.word	0x000f4240
  8002bec:	40013c00 	.word	0x40013c00
 
@@ -5585,11 +5585,11 @@ int main(void)
  8002cac:	40016800 	.word	0x40016800
  8002cb0:	004c4b40 	.word	0x004c4b40
  8002cb4:	080aa54c 	.word	0x080aa54c
- 8002cb8:	2003fc27 	.word	0x2003fc27
- 8002cbc:	2003fc26 	.word	0x2003fc26
- 8002cc0:	2003fc25 	.word	0x2003fc25
- 8002cc4:	2003fc24 	.word	0x2003fc24
- 8002cc8:	2003fc2c 	.word	0x2003fc2c
+ 8002cb8:	2003fc2b 	.word	0x2003fc2b
+ 8002cbc:	2003fc2a 	.word	0x2003fc2a
+ 8002cc0:	2003fc29 	.word	0x2003fc29
+ 8002cc4:	2003fc28 	.word	0x2003fc28
+ 8002cc8:	20000000 	.word	0x20000000
 
 08002ccc <Reset_Handler>:
 
@@ -5680,11 +5680,11 @@ LoopForever:
   ldr r0, =_sdata
  8002d08:	20000000 	.word	0x20000000
   ldr r1, =_edata
- 8002d0c:	20000000 	.word	0x20000000
+ 8002d0c:	20000004 	.word	0x20000004
   ldr r2, =_sidata
  8002d10:	080ea154 	.word	0x080ea154
   ldr r2, =_sbss
- 8002d14:	20000000 	.word	0x20000000
+ 8002d14:	20000004 	.word	0x20000004
   ldr r4, =_ebss
  8002d18:	2003fc30 	.word	0x2003fc30
 

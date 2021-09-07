@@ -6,7 +6,7 @@ main.c:351:6:change_digit_1	112	static
 main.c:413:6:change_digit_2	104	static
 main.c:471:6:change_digit_3	312	static
 main.c:659:6:SysTick_Handler	8	static
-main.c:751:6:EXTI0_IRQHandler	16	static
+main.c:752:6:EXTI0_IRQHandler	16	static
 main.c:784:6:EXTI1_IRQHandler	16	static
 main.c:812:6:EXTI2_IRQHandler	16	static
 main.c:844:6:EXTI3_IRQHandler	16	static
