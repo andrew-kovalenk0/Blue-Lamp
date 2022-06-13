@@ -30,6 +30,8 @@
 #include "two_picture_3.h"
 #include "zero_picture_3.h"
 #include "eigth_picture_3.h"
+#include "on_colon.h"
+#include "off_colon.h"
 #include "init_picture.h"
 #include "main_picture.h"
 
@@ -69,6 +71,7 @@ uint8_t power = 70;
 	10 - Change of set hour ON
 	20 - Change of set minute ON
 	40 - Change of set power ON
+	80 - Сolon main time ON
 */
 
 
@@ -677,6 +680,24 @@ void change_digit_power(int power)
 }
 
 
+void change_colon_visibility(int position)
+{
+	int k = 0;
+
+	if(position != 0)
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = on_colon[k++];
+	else
+		for(int i = 0; i <= 57; ++i)
+			for(int j = 0; j <= 32; ++j)
+				screen[4861+i*480+j] = off_colon[k++];
+
+	LTDC_Layer2->CFBAR = (uint32_t)screen;
+	LTDC->SRCR |= LTDC_SRCR_VBR;
+}
+
+
 void SysTick_Handler(void)
 {
 	++cnt;
@@ -782,6 +803,12 @@ void SysTick_Handler(void)
 		TIM3->CCR1 = 0;
 	}
 
+	if(cnt == 150000 && (flags & 0x80) != 0)
+	{
+		flags &= ~0x80;
+		change_colon_visibility(flags & 0x80);
+	}
+
 	if(cnt == 600000)
 		cnt = 0;
 }
@@ -848,6 +875,8 @@ void EXTI3_IRQHandler()
 	{
 		TIM3->CCR1 = 0;
 		flags &= ~0x8;
+		flags &= ~0x80;
+		change_colon_visibility(1);
 	}
 	for(int i = 0; i <= 1500000; ++i);
 	EXTI->PR |= EXTI_PR_PR3;
@@ -857,6 +886,7 @@ void EXTI3_IRQHandler()
 void EXTI4_IRQHandler()
 {
 	flags &= ~0x8;
+	flags &= ~0x80;
 	TIM3->CCR1 = 0;
 	power = 0;
 	minute = 0;
@@ -872,6 +902,7 @@ void EXTI4_IRQHandler()
 	change_digit_main_time(3, 0);
 	change_digit_main_time(4, 0);
 	change_digit_power(0);
+	change_colon_visibility(1);
 
 	for(int i = 0; i <= 1500000; ++i);
 	EXTI->PR |= EXTI_PR_PR4;
