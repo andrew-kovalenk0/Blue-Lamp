@@ -75,6 +75,9 @@ uint8_t power = 70;
 */
 
 
+// TODO: ADD CHOOSE PREDEFINED PARAMETRS
+
+
 void initialization()
 {
 	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
@@ -683,7 +686,7 @@ void change_digit_power(int power)
 void change_colon_visibility(int position)
 {
 	int k = 0;
-
+	// TODO: CHANGE POSITION AND SHAPES
 	if(position != 0)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
