@@ -33,6 +33,7 @@
 #include "init_picture.h"
 #include "main_picture.h"
 
+
 #define  DISPLAY_HSYNC            ((uint16_t)30)
 #define  DISPLAY_HBP              ((uint16_t)13)
 #define  DISPLAY_HFP              ((uint16_t)32)
@@ -43,6 +44,7 @@
 #define  DISPLAY_HEIGHT			  ((uint16_t)272)
 #define  PIXEL_SIZE				  ((uint16_t)4)
 #define  REFRESH_RATE 			  (1665)
+
 
 static uint16_t screen[130560];
 uint8_t flags = 0;
@@ -56,6 +58,15 @@ uint8_t set_minute_2 = 0;
 uint8_t set_hour = 0;
 uint8_t set_hour_2 = 0;
 uint8_t power = 70;
+
+
+/*
+	STATUS WORD:
+	1 - Change of set time enable
+	2 - Change of set power enable
+	3 - Ligth is on
+*/
+
 
 void initialization()
 {
@@ -350,7 +361,8 @@ void initialization()
 	GPIOK->BSRR |= GPIO_BSRR_BS_3;
 }
 
-void change_digit_1(int poz, int number)
+
+void change_digit_main_time(int poz, int number)
 {
 	int x = 0;
 	int k = 0;
@@ -412,7 +424,8 @@ void change_digit_1(int poz, int number)
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 }
 
-void change_digit_2(int poz, int number)
+
+void change_digit_set_time(int poz, int number)
 {
 	int x = 0;
 	int k = 0;
@@ -470,7 +483,8 @@ void change_digit_2(int poz, int number)
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 }
 
-void change_digit_3(int number)
+
+void change_digit_power(int number)
 {
 	int k = 0;
 
@@ -658,6 +672,7 @@ void change_digit_3(int number)
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 }
 
+
 void SysTick_Handler(void)
 {
 	++cnt;
@@ -675,10 +690,10 @@ void SysTick_Handler(void)
 					minute_2 = 5;
 					minute = 9;
 					--hour_2;
-					change_digit_2(1,hour_2);
-					change_digit_2(2,9);
-					change_digit_2(3,5);
-					change_digit_2(4,9);
+					change_digit_set_time(1,hour_2);
+					change_digit_set_time(2,9);
+					change_digit_set_time(3,5);
+					change_digit_set_time(4,9);
 				}
 				else
 				{
@@ -696,15 +711,15 @@ void SysTick_Handler(void)
 				cnt = 414;
 				minute = 9;
 				--minute_2;
-				change_digit_2(3,minute_2);
-				change_digit_2(4,9);
+				change_digit_set_time(3,minute_2);
+				change_digit_set_time(4,9);
 			}
 		}
 		else
 		{
 			cnt = 136;
 			--minute;
-			change_digit_2(4,minute);
+			change_digit_set_time(4,minute);
 		}
 	}
 
@@ -713,18 +728,18 @@ void SysTick_Handler(void)
 		cnt = 0;
 		if((flags & 0x80) == 0)
 		{
-			change_digit_1(1,10);
-			change_digit_1(2,10);
-			change_digit_1(3,10);
-			change_digit_1(4,10);
+			change_digit_main_time(1,10);
+			change_digit_main_time(2,10);
+			change_digit_main_time(3,10);
+			change_digit_main_time(4,10);
 			flags |= 0x80;
 		}
 		else
 		{
-			change_digit_1(1,hour_2);
-			change_digit_1(2,hour);
-			change_digit_1(3,minute_2);
-			change_digit_1(4,minute);
+			change_digit_main_time(1,hour_2);
+			change_digit_main_time(2,hour);
+			change_digit_main_time(3,minute_2);
+			change_digit_main_time(4,minute);
 			flags &= ~0x80;
 		}
 	}
@@ -733,12 +748,12 @@ void SysTick_Handler(void)
 		cnt = 0;
 		if((flags & 0x40) == 0)
 		{
-			change_digit_3(200);
+			change_digit_power(200);
 			flags |= 0x40;
 		}
 		else
 		{
-			change_digit_3(power);
+			change_digit_power(power);
 			flags &= ~0x40;
 		}
 	}
@@ -751,6 +766,7 @@ void SysTick_Handler(void)
 		cnt = 0;
 }
 
+
 void EXTI0_IRQHandler()
 {
 	if((flags & 0x4) == 0)
@@ -758,7 +774,7 @@ void EXTI0_IRQHandler()
 		if((flags & 0x2) != 0)
 		{
 			flags &= ~0x2;
-			change_digit_3(power);
+			change_digit_power(power);
 		}
 		else
 		{
@@ -770,10 +786,10 @@ void EXTI0_IRQHandler()
 				set_minute_2 = minute_2;
 				set_hour = hour;
 				set_hour_2 = hour_2;
-				change_digit_1(1,set_hour_2);
-				change_digit_1(2,set_hour);
-				change_digit_1(3,set_minute_2);
-				change_digit_1(4,set_minute);
+				change_digit_main_time(1,set_hour_2);
+				change_digit_main_time(2,set_hour);
+				change_digit_main_time(3,set_minute_2);
+				change_digit_main_time(4,set_minute);
 			}
 			else
 				flags |= 0x1;
@@ -783,20 +799,21 @@ void EXTI0_IRQHandler()
 	EXTI->PR |= EXTI_PR_PR0;
 }
 
+
 void EXTI3_IRQHandler()
 {
 	if((flags & 0x4) == 0 && (flags & 0x1) == 0 && (flags & 0x2) == 0)
 	{
 		flags |= 0x4;
 		TIM3->CCR1 = power;
-		change_digit_1(1,set_hour_2);
-		change_digit_1(2,set_hour);
-		change_digit_1(3,set_minute_2);
-		change_digit_1(4,set_minute);
-		change_digit_2(1,hour_2);
-		change_digit_2(2,hour);
-		change_digit_2(3,minute_2);
-		change_digit_2(4,minute);
+		change_digit_main_time(1,set_hour_2);
+		change_digit_main_time(2,set_hour);
+		change_digit_main_time(3,set_minute_2);
+		change_digit_main_time(4,set_minute);
+		change_digit_set_time(1,hour_2);
+		change_digit_set_time(2,hour);
+		change_digit_set_time(3,minute_2);
+		change_digit_set_time(4,minute);
 	}
 	else
 	{
@@ -810,6 +827,7 @@ void EXTI3_IRQHandler()
 	EXTI->PR |= EXTI_PR_PR3;
 }
 
+
 void EXTI4_IRQHandler()
 {
 	flags &= ~0x4;
@@ -819,19 +837,20 @@ void EXTI4_IRQHandler()
 	minute_2 = 0;
 	hour = 0;
 	hour_2 = 0;
-	change_digit_1(1,0);
-	change_digit_1(2,0);
-	change_digit_1(3,0);
-	change_digit_1(4,0);
-	change_digit_2(1,0);
-	change_digit_2(2,0);
-	change_digit_2(3,0);
-	change_digit_2(4,0);
-	change_digit_3(0);
+	change_digit_main_time(1,0);
+	change_digit_main_time(2,0);
+	change_digit_main_time(3,0);
+	change_digit_main_time(4,0);
+	change_digit_set_time(1,0);
+	change_digit_set_time(2,0);
+	change_digit_set_time(3,0);
+	change_digit_set_time(4,0);
+	change_digit_power(0);
 
 	for(int i = 0; i <= 1500000; ++i);
 	EXTI->PR |= EXTI_PR_PR4;
 }
+
 
 void EXTI9_5_IRQHandler()
 {
@@ -865,6 +884,7 @@ void EXTI9_5_IRQHandler()
 	EXTI->PR |= EXTI_PR_PR6;
 }
 
+
 void EXTI15_10_IRQHandler()
 {
 	if((flags & 0x2) != 0 && power != 100)
@@ -893,6 +913,7 @@ void EXTI15_10_IRQHandler()
 	EXTI->PR |= EXTI_PR_PR15;
 }
 
+
 int main(void)
 {
 	initialization();
@@ -907,19 +928,19 @@ int main(void)
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 
 	// Time
-	change_digit_1(1,hour_2);
-	change_digit_1(2,hour);
-	change_digit_1(3,minute_2);
-	change_digit_1(4,minute);
+	change_digit_main_time(1,hour_2);
+	change_digit_main_time(2,hour);
+	change_digit_main_time(3,minute_2);
+	change_digit_main_time(4,minute);
 
 	// Time 2
-	change_digit_2(1,hour_2);
-	change_digit_2(2,hour);
-	change_digit_2(3,minute_2);
-	change_digit_2(4,minute);
+	change_digit_set_time(1,hour_2);
+	change_digit_set_time(2,hour);
+	change_digit_set_time(3,minute_2);
+	change_digit_set_time(4,minute);
 
 	// Power
-	change_digit_3(power);
+	change_digit_power(power);
 
 	// Timer
 	SysTick_Config(180);
