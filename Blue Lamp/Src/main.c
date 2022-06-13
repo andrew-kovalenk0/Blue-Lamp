@@ -30,8 +30,8 @@
 #include "two_picture_3.h"
 #include "zero_picture_3.h"
 #include "eigth_picture_3.h"
-#include "on_colon.h"
-#include "off_colon.h"
+#include "colon_on.h"
+#include "colon_off.h"
 #include "init_picture.h"
 #include "main_picture.h"
 
@@ -687,11 +687,11 @@ void change_colon_visibility(int position)
 	if(position != 0)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
-				screen[4861+i*480+j] = on_colon[k++];
+				screen[4861+i*480+j] = colon_on[k++];
 	else
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
-				screen[4861+i*480+j] = off_colon[k++];
+				screen[4861+i*480+j] = colon_off[k++];
 
 	LTDC_Layer2->CFBAR = (uint32_t)screen;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
