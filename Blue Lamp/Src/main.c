@@ -62,9 +62,13 @@ uint8_t power = 70;
 
 /*
 	STATUS WORD:
-	1 - Change of set time enable
-	2 - Change of set power enable
-	3 - Ligth is on
+	1 - Change of set hour enable
+	2 - Change of set minute enable
+	4 - Change of set power enable
+	8 - Ligth is ON
+	10 - Change of set hour ON
+	20 - Change of set minute ON
+	40 - Change of set power ON
 */
 
 
@@ -362,61 +366,61 @@ void initialization()
 }
 
 
-void change_digit_main_time(int poz, int number)
+void change_digit_main_time(int pozition, int digit)
 {
 	int x = 0;
 	int k = 0;
 
-	if(poz==1)
+	if(pozition==1)
 		x = 0;
-	if(poz==2)
+	if(pozition==2)
 		x = 38;
-	if(poz==3)
+	if(pozition==3)
 		x = 86;
-	if(poz==4)
+	if(pozition==4)
 		x = 124;
 
-	if(number==10)
+	if(digit==10)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = none_picture_3[k++];
-	if(number==0)
+	if(digit==0)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = zero_picture_1[k++];
-	if(number==1)
+	if(digit==1)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = one_picture_1[k++];
-	if(number==2)
+	if(digit==2)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = two_picture_1[k++];
-	if(number==3)
+	if(digit==3)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = three_picture_1[k++];
-	if(number==4)
+	if(digit==4)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = four_picture_1[k++];
-	if(number==5)
+	if(digit==5)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = five_picture_1[k++];
-	if(number==6)
+	if(digit==6)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = six_picture_1[k++];
-	if(number==7)
+	if(digit==7)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = seven_picture_1[k++];
-	if(number==8)
+	if(digit==8)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = eigth_picture_1[k++];
-	if(number==9)
+	if(digit==9)
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
 				screen[x+5113+i*480+j] = nine_picture_1[k++];
@@ -425,57 +429,57 @@ void change_digit_main_time(int poz, int number)
 }
 
 
-void change_digit_set_time(int poz, int number)
+void change_digit_set_time(int pozition, int digit)
 {
 	int x = 0;
 	int k = 0;
 
-	if(poz==1)
+	if(pozition==1)
 		x = 0;
-	if(poz==2)
+	if(pozition==2)
 		x = 110;
-	if(poz==3)
+	if(pozition==3)
 		x = 246;
-	if(poz==4)
+	if(pozition==4)
 		x = 356;
 
-	if(number==0)
+	if(digit==0)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = zero_picture_2[k++];
-	if(number==1)
+	if(digit==1)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = one_picture_2[k++];
-	if(number==2)
+	if(digit==2)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = two_picture_2[k++];
-	if(number==3)
+	if(digit==3)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = three_picture_2[k++];
-	if(number==4)
+	if(digit==4)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = four_picture_2[k++];
-	if(number==5)
+	if(digit==5)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = five_picture_2[k++];
-	if(number==6)
+	if(digit==6)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = six_picture_2[k++];
-	if(number==7)
+	if(digit==7)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = seven_picture_2[k++];
-	if(number==8)
+	if(digit==8)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = eigth_picture_2[k++];
-	if(number==9)
+	if(digit==9)
 		for(int i = 0; i <= 173; ++i)
 			for(int j = 0; j <= 98; ++j)
 				screen[x+42253+i*480+j] = nine_picture_2[k++];
@@ -484,11 +488,11 @@ void change_digit_set_time(int poz, int number)
 }
 
 
-void change_digit_power(int number)
+void change_digit_power(int power)
 {
 	int k = 0;
 
-	if(number==200)
+	if(power==200)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -503,7 +507,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==0)
+	if(power==0)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -518,7 +522,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==10)
+	if(power==10)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -533,7 +537,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==20)
+	if(power==20)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -548,7 +552,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==30)
+	if(power==30)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -563,7 +567,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==40)
+	if(power==40)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -578,7 +582,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==50)
+	if(power==50)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -593,7 +597,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==60)
+	if(power==60)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -608,7 +612,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==70)
+	if(power==70)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -623,7 +627,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==80)
+	if(power==80)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -638,7 +642,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==90)
+	if(power==90)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -653,7 +657,7 @@ void change_digit_power(int number)
 				screen[4861+i*480+j] = none_picture_3[k++];
 	}
 
-	if(number==100)
+	if(power==100)
 	{
 		for(int i = 0; i <= 57; ++i)
 			for(int j = 0; j <= 32; ++j)
@@ -677,7 +681,7 @@ void SysTick_Handler(void)
 {
 	++cnt;
 
-	if(cnt == 475000 && (flags & 0x4) != 0)
+	if(cnt == 475000 && (flags & 0x8) != 0)
 	{
 		if(minute == 0)
 		{
@@ -690,10 +694,10 @@ void SysTick_Handler(void)
 					minute_2 = 5;
 					minute = 9;
 					--hour_2;
-					change_digit_set_time(1,hour_2);
-					change_digit_set_time(2,9);
-					change_digit_set_time(3,5);
-					change_digit_set_time(4,9);
+					change_digit_main_time(1, hour_2);
+					change_digit_main_time(2, 9);
+					change_digit_main_time(3, 5);
+					change_digit_main_time(4, 9);
 				}
 				else
 				{
@@ -701,9 +705,9 @@ void SysTick_Handler(void)
 					minute_2 = 5;
 					minute = 9;
 					--hour;
-					change_digit_2(2,hour);
-					change_digit_2(3,5);
-					change_digit_2(4,9);
+					change_digit_2(2, hour);
+					change_digit_2(3, 5);
+					change_digit_2(4, 9);
 				}
 			}
 			else
@@ -711,39 +715,53 @@ void SysTick_Handler(void)
 				cnt = 414;
 				minute = 9;
 				--minute_2;
-				change_digit_set_time(3,minute_2);
-				change_digit_set_time(4,9);
+				change_digit_main_time(3, minute_2);
+				change_digit_main_time(4, 9);
 			}
 		}
 		else
 		{
 			cnt = 136;
 			--minute;
-			change_digit_set_time(4,minute);
+			change_digit_main_time(4,minute);
 		}
 	}
 
 	if(cnt == 150000 && (flags & 0x1) != 0)
 	{
 		cnt = 0;
-		if((flags & 0x80) == 0)
+		if((flags & 0x10) == 0)
 		{
-			change_digit_main_time(1,10);
-			change_digit_main_time(2,10);
-			change_digit_main_time(3,10);
-			change_digit_main_time(4,10);
-			flags |= 0x80;
+			change_digit_set_time(1, 10);
+			change_digit_set_time(2, 10);
+			flags |= 0x10;
 		}
 		else
 		{
-			change_digit_main_time(1,hour_2);
-			change_digit_main_time(2,hour);
-			change_digit_main_time(3,minute_2);
-			change_digit_main_time(4,minute);
-			flags &= ~0x80;
+			change_digit_set_time(1, hour_2);
+			change_digit_set_time(2, hour);
+			flags &= ~0x10;
 		}
 	}
+
 	if(cnt == 150000 && (flags & 0x2) != 0)
+	{
+		cnt = 0;
+		if((flags & 0x20) == 0)
+		{
+			change_digit_set_time(3, 10);
+			change_digit_set_time(4, 10);
+			flags |= 0x20;
+		}
+		else
+		{
+			change_digit_set_time(3, minute_2);
+			change_digit_set_time(4, minute);
+			flags &= ~0x20;
+		}
+	}
+
+	if(cnt == 150000 && (flags & 0x4) != 0)
 	{
 		cnt = 0;
 		if((flags & 0x40) == 0)
@@ -757,11 +775,13 @@ void SysTick_Handler(void)
 			flags &= ~0x40;
 		}
 	}
+
 	if((hour_2 == 0 && hour == 0 && minute_2 == 0 && minute == 0))
 	{
-		flags &= ~0x4;
+		flags &= ~0x8;
 		TIM3->CCR1 = 0;
 	}
+
 	if(cnt == 600000)
 		cnt = 0;
 }
@@ -769,30 +789,39 @@ void SysTick_Handler(void)
 
 void EXTI0_IRQHandler()
 {
-	if((flags & 0x4) == 0)
+	if((flags & 0x8) == 0)
 	{
-		if((flags & 0x2) != 0)
+		switch (flags & 0b00000111)
 		{
+		case 1:
+		{
+			flags |= 0x2;
+			flags &= ~0x1;
+			set_hour = hour;
+			set_hour_2 = hour_2;
+			change_digit_set_time(1, set_hour_2);
+			change_digit_set_time(2, set_hour);
+		}
+			break;
+		case 2:
+		{
+			flags |= 0x4;
 			flags &= ~0x2;
+			set_hour = minute;
+			set_hour_2 = minute_2;
+			change_digit_set_time(3, minute);
+			change_digit_set_time(4, minute_2);
+		}
+			break;
+		case 4:
+		{
+			flags &= ~0x4;
 			change_digit_power(power);
 		}
-		else
-		{
-			if((flags & 0x1) != 0)
-			{
-				flags |= 0x2;
-				flags &= ~0x1;
-				set_minute = minute;
-				set_minute_2 = minute_2;
-				set_hour = hour;
-				set_hour_2 = hour_2;
-				change_digit_main_time(1,set_hour_2);
-				change_digit_main_time(2,set_hour);
-				change_digit_main_time(3,set_minute_2);
-				change_digit_main_time(4,set_minute);
-			}
-			else
-				flags |= 0x1;
+			break;
+		default:
+			flags |= 0x1;
+			break;
 		}
 	}
 	for(int i = 0; i <= 1500000; ++i);
@@ -802,26 +831,23 @@ void EXTI0_IRQHandler()
 
 void EXTI3_IRQHandler()
 {
-	if((flags & 0x4) == 0 && (flags & 0x1) == 0 && (flags & 0x2) == 0)
+	if((flags & 0x8) == 0 && (flags & 0x1) == 0 && (flags & 0x2) == 0  && (flags & 0x4) == 0)
 	{
-		flags |= 0x4;
+		flags |= 0x8;
 		TIM3->CCR1 = power;
-		change_digit_main_time(1,set_hour_2);
-		change_digit_main_time(2,set_hour);
-		change_digit_main_time(3,set_minute_2);
-		change_digit_main_time(4,set_minute);
-		change_digit_set_time(1,hour_2);
-		change_digit_set_time(2,hour);
-		change_digit_set_time(3,minute_2);
-		change_digit_set_time(4,minute);
+		change_digit_set_time(1, set_hour_2);
+		change_digit_set_time(2, set_hour);
+		change_digit_set_time(3, set_minute_2);
+		change_digit_set_time(4, set_minute);
+		change_digit_main_time(1, hour_2);
+		change_digit_main_time(2, hour);
+		change_digit_main_time(3, minute_2);
+		change_digit_main_time(4, minute);
 	}
 	else
 	{
-		if((flags & 0x1) == 0 && (flags & 0x2) == 0)
-		{
-			TIM3->CCR1 = 0;
-			flags &= ~0x4;
-		}
+		TIM3->CCR1 = 0;
+		flags &= ~0x8;
 	}
 	for(int i = 0; i <= 1500000; ++i);
 	EXTI->PR |= EXTI_PR_PR3;
@@ -830,21 +856,21 @@ void EXTI3_IRQHandler()
 
 void EXTI4_IRQHandler()
 {
-	flags &= ~0x4;
+	flags &= ~0x8;
 	TIM3->CCR1 = 0;
 	power = 0;
 	minute = 0;
 	minute_2 = 0;
 	hour = 0;
 	hour_2 = 0;
-	change_digit_main_time(1,0);
-	change_digit_main_time(2,0);
-	change_digit_main_time(3,0);
-	change_digit_main_time(4,0);
-	change_digit_set_time(1,0);
-	change_digit_set_time(2,0);
-	change_digit_set_time(3,0);
-	change_digit_set_time(4,0);
+	change_digit_set_time(1, 0);
+	change_digit_set_time(2, 0);
+	change_digit_set_time(3, 0);
+	change_digit_set_time(4, 0);
+	change_digit_main_time(1, 0);
+	change_digit_main_time(2, 0);
+	change_digit_main_time(3, 0);
+	change_digit_main_time(4, 0);
 	change_digit_power(0);
 
 	for(int i = 0; i <= 1500000; ++i);
@@ -854,32 +880,26 @@ void EXTI4_IRQHandler()
 
 void EXTI9_5_IRQHandler()
 {
-	if((flags & 0x2) != 0 && power != 0)
-		power -= 10;
-	if((flags & 0x1) != 0)
+	if((flags & 0x1) != 0 && hour_2 + hour != 0)
 	{
-		if((hour_2 == 0 && hour == 0 && minute_2 == 0 && minute == 0))
-			goto end_minus;
-		else
+		--hour;
+		if(hour == 0)
 		{
-			if(minute_2 == 0)
-			{
-				if(hour == 0)
-				{
-					--hour_2;
-					hour = 9;
-				}
-				else
-				{
-					--hour;
-					minute_2 = 3;
-				}
-			}
-			else
-				minute_2 -= 3;
+			--hour_2;
+			hour = 9;
 		}
 	}
-	end_minus:
+	if((flags & 0x2) != 0 && hour_2 + hour != 0)
+	{
+		--minute;
+		if(minute == 0)
+		{
+			--minute_2;
+			minute = 9;
+		}
+	}
+	if((flags & 0x4) != 0 && power != 0)
+		power -= 10;
 	for(int i = 0; i <= 1500000; ++i);
 	EXTI->PR |= EXTI_PR_PR6;
 }
@@ -887,28 +907,26 @@ void EXTI9_5_IRQHandler()
 
 void EXTI15_10_IRQHandler()
 {
-	if((flags & 0x2) != 0 && power != 100)
-		power += 10;
-	if((flags & 0x1) != 0)
+	if((flags & 0x1) != 0 && hour_2 + hour != 18)
 	{
-		if(hour_2 >= 9 && hour >= 9 && minute_2 >= 3 && minute >= 0)
-			goto end_plus;
-		else
+		++hour;
+		if(hour == 9)
 		{
-			minute_2 += 3;
-			if(minute_2 == 6)
-			{
-				++hour;
-				minute_2 = 0;
-				if(hour == 9)
-				{
-					++hour_2;
-					hour = 0;
-				}
-			}
+			++hour_2;
+			hour = 0;
 		}
 	}
-	end_plus:
+	if((flags & 0x2) != 0 && hour_2 + hour != 18)
+	{
+		++minute;
+		if(minute == 9)
+		{
+			++minute_2;
+			minute = 0;
+		}
+	}
+	if((flags & 0x4) != 0 && power != 100)
+		power += 10;
 	for(int i = 0; i <= 1500000; ++i);
 	EXTI->PR |= EXTI_PR_PR15;
 }
@@ -928,16 +946,16 @@ int main(void)
 	LTDC->SRCR |= LTDC_SRCR_VBR;
 
 	// Time
-	change_digit_main_time(1,hour_2);
-	change_digit_main_time(2,hour);
-	change_digit_main_time(3,minute_2);
-	change_digit_main_time(4,minute);
+	change_digit_set_time(1, hour_2);
+	change_digit_set_time(2, hour);
+	change_digit_set_time(3, minute_2);
+	change_digit_set_time(4, minute);
 
 	// Time 2
-	change_digit_set_time(1,hour_2);
-	change_digit_set_time(2,hour);
-	change_digit_set_time(3,minute_2);
-	change_digit_set_time(4,minute);
+	change_digit_main_time(1, hour_2);
+	change_digit_main_time(2, hour);
+	change_digit_main_time(3, minute_2);
+	change_digit_main_time(4, minute);
 
 	// Power
 	change_digit_power(power);
