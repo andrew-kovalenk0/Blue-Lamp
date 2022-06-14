@@ -687,13 +687,13 @@ void change_colon_visibility(int position)
 	int k = 0;
 	// TODO: CHANGE POSITION AND SHAPES
 	if(position != 0)
-		for(int i = 0; i <= 57; ++i)
-			for(int j = 0; j <= 32; ++j)
-				screen[4861+i*480+j] = colon_on[k++];
+		for(int i = 0; i <= 90; ++i)
+			for(int j = 0; j <= 15; ++j)
+				screen[233+62400+i*480+j] = colon_on[k++];
 	else
-		for(int i = 0; i <= 57; ++i)
-			for(int j = 0; j <= 32; ++j)
-				screen[4861+i*480+j] = colon_off[k++];
+		for(int i = 0; i <= 90; ++i)
+			for(int j = 0; j <= 15; ++j)
+				screen[233+62400+i*480+j] = colon_off[k++];
 
 	LTDC_Layer2->CFBAR = (uint32_t)screen;
 	LTDC->SRCR |= LTDC_SRCR_VBR;
