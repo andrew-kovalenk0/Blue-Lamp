@@ -60,6 +60,7 @@ uint8_t set_minute_2 = 0;
 uint8_t set_hour = 0;
 uint8_t set_hour_2 = 0;
 uint8_t power = 70;
+uint8_t predifined_parametrs = 0;
 
 
 /*
@@ -73,9 +74,6 @@ uint8_t power = 70;
 	40 - Change of set power ON
 	80 - Сolon main time ON
 */
-
-
-// TODO: ADD CHOOSE PREDEFINED PARAMETRS
 
 
 void initialization()
@@ -127,12 +125,13 @@ void initialization()
 	// PI3 - D7
 	// PB4 - D3
 	// PG6 - D2
-	SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI0_PI | SYSCFG_EXTICR1_EXTI3_PI;
+	SYSCFG->EXTICR[0] |= SYSCFG_EXTICR1_EXTI0_PI | SYSCFG_EXTICR1_EXTI1_PI | SYSCFG_EXTICR1_EXTI3_PI;
 	SYSCFG->EXTICR[1] |= SYSCFG_EXTICR2_EXTI4_PB | SYSCFG_EXTICR2_EXTI6_PG;
 	SYSCFG->EXTICR[3] |= SYSCFG_EXTICR4_EXTI15_PB;
-	EXTI->IMR |= EXTI_IMR_MR0 | EXTI_IMR_MR3 | EXTI_IMR_MR4 | EXTI_IMR_MR6 | EXTI_IMR_MR15;
-	EXTI->RTSR |= EXTI_RTSR_TR0 | EXTI_RTSR_TR3 | EXTI_RTSR_TR4 | EXTI_RTSR_TR6 | EXTI_RTSR_TR15;
+	EXTI->IMR |= EXTI_IMR_MR0 | EXTI_IMR_MR1 | EXTI_IMR_MR3 | EXTI_IMR_MR4 | EXTI_IMR_MR6 | EXTI_IMR_MR15;
+	EXTI->RTSR |= EXTI_RTSR_TR0 | EXTI_RTSR_TR1 | EXTI_RTSR_TR3 | EXTI_RTSR_TR4 | EXTI_RTSR_TR6 | EXTI_RTSR_TR15;
 	NVIC_EnableIRQ(EXTI0_IRQn);
+	NVIC_EnableIRQ(EXTI1_IRQn);
 	NVIC_EnableIRQ(EXTI3_IRQn);
 	NVIC_EnableIRQ(EXTI4_IRQn);
 	NVIC_EnableIRQ(EXTI9_5_IRQn);
@@ -729,9 +728,9 @@ void SysTick_Handler(void)
 					minute_2 = 5;
 					minute = 9;
 					--hour;
-					change_digit_2(2, hour);
-					change_digit_2(3, 5);
-					change_digit_2(4, 9);
+					change_digit_main_time(2, hour);
+					change_digit_main_time(3, 5);
+					change_digit_main_time(4, 9);
 				}
 			}
 			else
@@ -859,11 +858,65 @@ void EXTI0_IRQHandler()
 }
 
 
+void EXTI1_IRQHandler()
+{
+	if((flags & 0x8) == 0 && (flags & 0x1) == 0 && (flags & 0x2) == 0  && (flags & 0x4) == 0)
+	{	
+		if(predifined_parametrs == 2)
+		{
+			predifined_parametrs = 0;
+			hour_2 = 0;
+			hour = 0;
+			minute_2 = 0;
+			minute = 0;
+			power = 0;
+			change_digit_set_time(1, set_hour_2);
+			change_digit_set_time(2, set_hour);
+			change_digit_set_time(3, set_minute_2);
+			change_digit_set_time(4, set_minute);
+			change_digit_power(power);
+		}
+		if(predifined_parametrs == 1)
+		{
+			predifined_parametrs = 2;
+			hour_2 = 2;
+			hour = 5;
+			minute_2 = 3;
+			minute = 0;
+			power = 100;
+			change_digit_set_time(1, set_hour_2);
+			change_digit_set_time(2, set_hour);
+			change_digit_set_time(3, set_minute_2);
+			change_digit_set_time(4, set_minute);
+			change_digit_power(power);
+		}
+		if(predifined_parametrs == 0)
+		{
+			predifined_parametrs = 1;
+			hour_2 = 1;
+			hour = 0;
+			minute_2 = 0;
+			minute = 0;
+			power = 50;
+			change_digit_set_time(1, set_hour_2);
+			change_digit_set_time(2, set_hour);
+			change_digit_set_time(3, set_minute_2);
+			change_digit_set_time(4, set_minute);
+			change_digit_power(power);
+		}
+	}
+
+	for(int i = 0; i <= 1500000; ++i);
+	EXTI->PR |= EXTI_PR_PR1;
+}
+
+
 void EXTI3_IRQHandler()
 {
 	if((flags & 0x8) == 0 && (flags & 0x1) == 0 && (flags & 0x2) == 0  && (flags & 0x4) == 0)
 	{
 		flags |= 0x8;
+		flags |= 0x80;
 		TIM3->CCR1 = power;
 		change_digit_set_time(1, set_hour_2);
 		change_digit_set_time(2, set_hour);
