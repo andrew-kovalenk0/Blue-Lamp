@@ -1,2 +1,9 @@
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+Blue Lamp/.cproject
+Blue Lamp/.project
+Blue Lamp/.settings
+Blue Lamp/Startup
+Blue Lamp/*.ld
+Blue Lamp/Debug/*
+!Blue Lamp/Debug/Blue Lamp.hex
